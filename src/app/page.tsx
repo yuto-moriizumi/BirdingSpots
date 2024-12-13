@@ -1,12 +1,14 @@
-import { getBirdwatchingSpots } from './lib/getData';
-import BirdwatchingSpotsTable from './components/BirdwatchingSpotsTable';
+import BirdwatchingSpotsTable from "./_components/BirdwatchingSpotsTable";
+import { getBirdwatchingSpots, Month } from "./getData";
 
 export default async function Home() {
   const spots = await getBirdwatchingSpots();
-  const currentMonth = new Date().toLocaleString('default', { month: 'short' });
+  const currentMonth = new Date().toLocaleString("default", {
+    month: "short",
+  }) as Month;
 
   const sortedSpots = spots.sort((a, b) => {
-    return b[currentMonth as keyof BirdwatchingSpot] - a[currentMonth as keyof BirdwatchingSpot];
+    return b[currentMonth] - a[currentMonth];
   });
 
   return (
@@ -16,4 +18,3 @@ export default async function Home() {
     </main>
   );
 }
-

@@ -1,11 +1,14 @@
-import { BirdwatchingSpot } from '../lib/getData';
+import { BirdwatchingSpot } from "../getData";
 
 interface BirdwatchingSpotsTableProps {
   spots: BirdwatchingSpot[];
   currentMonth: keyof BirdwatchingSpot;
 }
 
-export default function BirdwatchingSpotsTable({ spots, currentMonth }: BirdwatchingSpotsTableProps) {
+export default function BirdwatchingSpotsTable({
+  spots,
+  currentMonth,
+}: BirdwatchingSpotsTableProps) {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white">
@@ -18,10 +21,17 @@ export default function BirdwatchingSpotsTable({ spots, currentMonth }: Birdwatc
         </thead>
         <tbody className="text-gray-600 text-sm font-light">
           {spots.map((spot) => (
-            <tr key={spot.id} className="border-b border-gray-200 hover:bg-gray-100">
-              <td className="py-3 px-6 text-left whitespace-nowrap">{spot.name}</td>
+            <tr
+              key={spot.id}
+              className="border-b border-gray-200 hover:bg-gray-100"
+            >
+              <td className="py-3 px-6 text-left whitespace-nowrap">
+                {spot.name}
+              </td>
               <td className="py-3 px-6 text-left">{spot.address}</td>
-              <td className="py-3 px-6 text-right">{spot[currentMonth as keyof BirdwatchingSpot]}</td>
+              <td className="py-3 px-6 text-right">
+                {spot[currentMonth as keyof BirdwatchingSpot]}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -29,4 +39,3 @@ export default function BirdwatchingSpotsTable({ spots, currentMonth }: Birdwatc
     </div>
   );
 }
-
