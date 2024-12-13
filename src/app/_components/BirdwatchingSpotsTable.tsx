@@ -1,8 +1,8 @@
-import { BirdwatchingSpot } from "../getData";
+import { Spot } from "../../model/Spot";
 
 interface BirdwatchingSpotsTableProps {
-  spots: BirdwatchingSpot[];
-  currentMonth: keyof BirdwatchingSpot;
+  spots: Spot[];
+  currentMonth: keyof Spot;
 }
 
 export default function BirdwatchingSpotsTable({
@@ -30,7 +30,7 @@ export default function BirdwatchingSpotsTable({
               </td>
               <td className="py-3 px-6 text-left">{spot.address}</td>
               <td className="py-3 px-6 text-right">
-                {spot[currentMonth as keyof BirdwatchingSpot]}
+                {spot[currentMonth as keyof Spot]}
               </td>
             </tr>
           ))}
