@@ -1,10 +1,15 @@
 import { aws } from "dynamoose";
 import { Spot } from "../model/Spot";
 import { SpotModel } from "../model/SpotModel";
+import { AWS_REGION } from "@/constants";
 
 // DynamoDBの設定
 const ddb = new aws.ddb.DynamoDB({
-  region: process.env.AWS_REGION,
+  region: AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.DB_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.DB_SECRET_ACCESS_KEY!,
+  },
 });
 aws.ddb.set(ddb);
 
