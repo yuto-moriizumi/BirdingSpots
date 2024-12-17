@@ -47,28 +47,28 @@ export function URLForm(props: { onData: (data: Spot) => void }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mb-6">
-      <label className="block">
-        <span className="text-gray-700">URL:</span>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+      <div className="flex items-center space-x-4">
+        <label className="text-gray-700 w-1/4">URL:</label>
         <input
           type="text"
           {...register("url", { required: "URL is required" })}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="mt-1 block w-3/4 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         />
-        {errors.url && <p className="text-red-500">{errors.url.message}</p>}
-      </label>
-      <label className="block">
-        <span className="text-gray-700">Data URL:</span>
+      </div>
+      {errors.url && <p className="text-red-500">{errors.url.message}</p>}
+      <div className="flex items-center space-x-4 mt-4">
+        <label className="text-gray-700 w-1/4">Data URL:</label>
         <input
           type="text"
           {...register("dataURL", { required: "Data URL is required" })}
           onPaste={handlePaste}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="mt-1 block w-3/4 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         />
-        {errors.dataURL && (
-          <p className="text-red-500">{errors.dataURL.message}</p>
-        )}
-      </label>
+      </div>
+      {errors.dataURL && (
+        <p className="text-red-500">{errors.dataURL.message}</p>
+      )}
       <button
         type="submit"
         className="w-full py-2 px-4 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
