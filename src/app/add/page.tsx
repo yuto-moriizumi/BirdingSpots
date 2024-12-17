@@ -3,41 +3,43 @@
 import React, { useState } from "react";
 import { addSpot } from "@/addSpot";
 import Link from "next/link";
-import { Spot } from "@/model/Spot";
 import { URLForm } from "./_components/URLForm";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { MONTH } from "@/model/Month";
+
+const schema = z.object({
+  id: z.string().nonempty(),
+  name: z.string().nonempty(),
+  address: z.string().nonempty(),
+  Jan: z.number().min(0),
+  Feb: z.number().min(0),
+  Mar: z.number().min(0),
+  Apr: z.number().min(0),
+  May: z.number().min(0),
+  Jun: z.number().min(0),
+  Jul: z.number().min(0),
+  Aug: z.number().min(0),
+  Sep: z.number().min(0),
+  Oct: z.number().min(0),
+  Nov: z.number().min(0),
+  Dec: z.number().min(0),
+});
+type Schema = z.infer<typeof schema>;
 
 export default function AddSpotPage() {
-  const [formData, setFormData] = useState<Spot>({
-    id: "",
-    name: "",
-    address: "",
-    Jan: 0,
-    Feb: 0,
-    Mar: 0,
-    Apr: 0,
-    May: 0,
-    Jun: 0,
-    Jul: 0,
-    Aug: 0,
-    Sep: 0,
-    Oct: 0,
-    Nov: 0,
-    Dec: 0,
-  });
   const [message, setMessage] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setValue,
+  } = useForm<Schema>({ resolver: zodResolver(schema) });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: e.target.type === "number" ? parseInt(value, 10) : value,
-    });
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const onSubmit = async (data: Schema) => {
     try {
-      const success = await addSpot(formData);
+      const success = await addSpot(data);
       if (success) {
         setMessage("Spot added successfully!");
       } else {
@@ -49,184 +51,68 @@ export default function AddSpotPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
       <Link href="/">一覧へ戻る</Link>
-      <h1 className="text-2xl font-bold mb-6">探鳥地を追加</h1>
-      <URLForm onData={setFormData} />
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <label className="block">
-          <span className="text-gray-700">ID:</span>
+      <h1 className="text-2xl font-bold mb-5">探鳥地を追加</h1>
+      <URLForm
+        onData={(data) => {
+          Object.entries(data).forEach(([key, value]) => {
+            setValue(key as keyof Schema, value);
+          });
+        }}
+      />
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 mt-5">
+        {message && <p className="text-center text-green-500">{message}</p>}
+        <label className="flex items-center space-x-2">
+          <span className="text-gray-700 w-16">ID:</span>
           <input
             type="text"
-            name="id"
-            value={formData.id}
-            onChange={handleChange}
-            required
+            {...register("id")}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           />
+          {errors.id && <p className="text-red-500">{errors.id.message}</p>}
         </label>
-        <label className="block">
-          <span className="text-gray-700">Name:</span>
+        <label className="flex items-center space-x-2">
+          <span className="text-gray-700 w-16">Name:</span>
           <input
             type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
+            {...register("name")}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           />
+          {errors.name && <p className="text-red-500">{errors.name.message}</p>}
         </label>
-        <label className="block">
-          <span className="text-gray-700">Address:</span>
+        <label className="flex items-center space-x-2">
+          <span className="text-gray-700 w-16">Address:</span>
           <input
             type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            required
+            {...register("address")}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           />
+          {errors.address && (
+            <p className="text-red-500">{errors.address.message}</p>
+          )}
         </label>
-        <label className="block">
-          <span className="text-gray-700">Jan:</span>
-          <input
-            type="number"
-            name="Jan"
-            value={formData.Jan}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Feb:</span>
-          <input
-            type="number"
-            name="Feb"
-            value={formData.Feb}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Mar:</span>
-          <input
-            type="number"
-            name="Mar"
-            value={formData.Mar}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Apr:</span>
-          <input
-            type="number"
-            name="Apr"
-            value={formData.Apr}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">May:</span>
-          <input
-            type="number"
-            name="May"
-            value={formData.May}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Jun:</span>
-          <input
-            type="number"
-            name="Jun"
-            value={formData.Jun}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Jul:</span>
-          <input
-            type="number"
-            name="Jul"
-            value={formData.Jul}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Aug:</span>
-          <input
-            type="number"
-            name="Aug"
-            value={formData.Aug}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Sep:</span>
-          <input
-            type="number"
-            name="Sep"
-            value={formData.Sep}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Oct:</span>
-          <input
-            type="number"
-            name="Oct"
-            value={formData.Oct}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Nov:</span>
-          <input
-            type="number"
-            name="Nov"
-            value={formData.Nov}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Dec:</span>
-          <input
-            type="number"
-            name="Dec"
-            value={formData.Dec}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
+        {MONTH.map((month) => (
+          <label key={month} className="flex items-center space-x-2">
+            <span className="text-gray-700 w-16">{month}:</span>
+            <input
+              type="number"
+              {...register(month)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            />
+            {errors[month] && (
+              <p className="text-red-500">{errors[month]?.message}</p>
+            )}
+          </label>
+        ))}
         <button
           type="submit"
           className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          disabled={isSubmitting}
         >
-          Submit
+          {isSubmitting ? "Loading..." : "Submit"}
         </button>
       </form>
-      {message && <p className="mt-4 text-center text-green-500">{message}</p>}
     </div>
   );
 }
