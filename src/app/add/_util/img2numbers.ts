@@ -1,10 +1,7 @@
 import { MonthRecord } from "@/model/MonthRecord";
 import { ChatOpenAI } from "@langchain/openai";
+import { HumanMessage } from "@langchain/core/messages";
 import { z } from "zod";
-
-export function img2numbers(img: string): number {
-  return img.length;
-}
 
 const MonthRecordSchema = z.object({
   Jan: z.number(),
@@ -26,9 +23,17 @@ const model = new ChatOpenAI({
   model: "gpt-4o-2024-11-20",
 }).withStructuredOutput(MonthRecordSchema);
 
+/** 1月～12月の各月に1つの数字が含まれる画像をdataURL形式で受け取り、AIで認識し、JSONとして返却する */
 export async function imgToMonthRecord(dataURL: string): Promise<MonthRecord> {
-  const response = await model.invoke(
-    `次の画像は各月の数値を表す棒グラフです。各月の数値を取得してください。\n${dataURL}`
-  );
+  const message = new HumanMessage({
+    content: [
+      {
+        type: "text",
+        text: "画像はグラフです。各月に対応する数字を読み取ってください。",
+      },
+      { type: "image_url", image_url: { url: dataURL } },
+    ],
+  });
+  const response = await model.invoke([message]);
   return response;
 }

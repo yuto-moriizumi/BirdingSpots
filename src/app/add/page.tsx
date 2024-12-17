@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { addSpot } from "@/addSpot";
 import Link from "next/link";
 import { Spot } from "@/model/Spot";
+import { URLForm } from "./_components/URLForm";
 
 export default function AddSpotPage() {
   const [formData, setFormData] = useState<Spot>({
@@ -51,7 +52,7 @@ export default function AddSpotPage() {
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
       <Link href="/">一覧へ戻る</Link>
       <h1 className="text-2xl font-bold mb-6">探鳥地を追加</h1>
-      {/* <URLForm onData={setFormData} /> */}
+      <URLForm onData={setFormData} />
       <form onSubmit={handleSubmit} className="space-y-4">
         <label className="block">
           <span className="text-gray-700">ID:</span>
