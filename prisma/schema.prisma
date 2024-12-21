@@ -41,9 +41,9 @@ model Bird {
 
 model SpotBird {
   spot         Spot    @relation(name: "SpotToSpotBird", fields: [spotId], references: [id])
-  spotId       String  @unique
+  spotId       String
   bird         Bird    @relation(name: "BirdToSpotBird", fields: [birdId], references: [id])
-  birdId       Int     @unique
+  birdId       Int
   JanFrequency Float[]
   FebFrequency Float[]
   MarFrequency Float[]
@@ -56,4 +56,6 @@ model SpotBird {
   OctFrequency Float[]
   NovFrequency Float[]
   DecFrequency Float[]
+
+  @@unique([spotId, birdId])
 }
