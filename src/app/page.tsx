@@ -3,6 +3,7 @@ import { getBirdwatchingSpots } from "./getData";
 import { Month } from "../model/Month";
 import Link from "next/link";
 import { Button } from "./_components/Button";
+import { getBirdSuggest } from "./_util/getBirdSuggest";
 
 export default async function Home() {
   const spots = await getBirdwatchingSpots();
@@ -46,6 +47,10 @@ export default async function Home() {
           spots={sortedSpots}
           currentMonth={currentMonth}
           monthPart={monthPart}
+          options={(await getBirdSuggest("")).map((bird) => ({
+            id: bird.id.toString(),
+            text: bird.name,
+          }))}
         />
       </main>
     </>
