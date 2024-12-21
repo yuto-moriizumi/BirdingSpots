@@ -14,28 +14,28 @@ generator client {
 // Try Prisma Accelerate: https:
 
 model Spot {
-  id       String    @id @default(uuid())
-  name     String
-  address  String
-  Jan      Int
-  Feb      Int
-  Mar      Int
-  Apr      Int
-  May      Int
-  Jun      Int
-  Jul      Int
-  Aug      Int
-  Sep      Int
-  Oct      Int
-  Nov      Int
-  Dec      Int
-  spotbird SpotBird? @relation(name: "SpotToSpotBird")
+  id        String     @id @default(uuid())
+  name      String
+  address   String
+  Jan       Int
+  Feb       Int
+  Mar       Int
+  Apr       Int
+  May       Int
+  Jun       Int
+  Jul       Int
+  Aug       Int
+  Sep       Int
+  Oct       Int
+  Nov       Int
+  Dec       Int
+  spotbirds SpotBird[] @relation(name: "SpotToSpotBird")
 }
 
 model Bird {
-  id       Int       @id
-  name     String
-  spotbird SpotBird? @relation(name: "BirdToSpotBird")
+  id        Int        @id
+  name      String
+  spotbirds SpotBird[] @relation(name: "BirdToSpotBird")
 }
 
 model SpotBird {
