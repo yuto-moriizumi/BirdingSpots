@@ -4,6 +4,7 @@ import { Edit2, Trash2 } from "lucide-react";
 import { Card, CardHeader, CardContent } from "./Card";
 import Image from "next/image";
 import Link from "next/link";
+import { BIRDS_PER_SPOT } from "@/constants";
 
 interface BirdwatchingSpotsTableProps {
   spots: Spot[];
@@ -40,7 +41,7 @@ export default function BirdwatchingSpotsTable({
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-3 gap-2">
-              {spot.birds.slice(0, 3).map((bird, index) => (
+              {spot.birds.slice(0, BIRDS_PER_SPOT).map((bird, index) => (
                 <Link
                   key={index}
                   href={`https://zoopicker.com/animals/${bird.id}`}
