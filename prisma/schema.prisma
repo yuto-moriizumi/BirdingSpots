@@ -35,6 +35,7 @@ model Spot {
 model Bird {
   id        Int        @id
   name      String
+  imageUrl  String
   spotbirds SpotBird[] @relation(name: "BirdToSpotBird")
 }
 
