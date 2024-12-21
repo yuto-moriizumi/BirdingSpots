@@ -19,14 +19,16 @@ export function URLForm(props: { onData: (data: Spot) => void }) {
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
+    reset,
   } = useForm<Schema>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: { url: string; dataURL: string }) => {
     try {
-      const spotData = await getSpotData(data.url, data.dataURL);
       const idMatch = data.url.match(/\/(\d+)\/?$/);
       const id = idMatch ? idMatch[1] : "1";
+      const spotData = await getSpotData(id, data.dataURL);
       props.onData({ id, ...spotData });
+      reset();
     } catch (error) {
       console.error("Validation or fetching error:", error);
     }

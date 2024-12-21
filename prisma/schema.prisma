@@ -1,32 +1,61 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("POSTGRES_URL_NON_POOLING")
 }
 
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["rhel-openssl-1.0.x"]
+}
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https:
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https:
+
 model Spot {
-  id      String @id @default(uuid())
-  name    String
-  address String
-  Jan     Int
-  Feb     Int
-  Mar     Int
-  Apr     Int
-  May     Int
-  Jun     Int
-  Jul     Int
-  Aug     Int
-  Sep     Int
-  Oct     Int
-  Nov     Int
-  Dec     Int
+  id        String     @id @default(uuid())
+  name      String
+  address   String
+  Jan       Int
+  Feb       Int
+  Mar       Int
+  Apr       Int
+  May       Int
+  Jun       Int
+  Jul       Int
+  Aug       Int
+  Sep       Int
+  Oct       Int
+  Nov       Int
+  Dec       Int
+  spotbirds SpotBird[] @relation(name: "SpotToSpotBird")
+}
+
+model Bird {
+  id        Int        @id
+  name      String
+  imageUrl  String
+  spotbirds SpotBird[] @relation(name: "BirdToSpotBird")
+}
+
+model SpotBird {
+  spot         Spot    @relation(name: "SpotToSpotBird", fields: [spotId], references: [id])
+  spotId       String
+  bird         Bird    @relation(name: "BirdToSpotBird", fields: [birdId], references: [id])
+  birdId       Int
+  JanFrequency Float[]
+  FebFrequency Float[]
+  MarFrequency Float[]
+  AprFrequency Float[]
+  MayFrequency Float[]
+  JunFrequency Float[]
+  JulFrequency Float[]
+  AugFrequency Float[]
+  SepFrequency Float[]
+  OctFrequency Float[]
+  NovFrequency Float[]
+  DecFrequency Float[]
+
+  @@unique([spotId, birdId])
 }
