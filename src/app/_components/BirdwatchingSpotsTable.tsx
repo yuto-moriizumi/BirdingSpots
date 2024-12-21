@@ -2,23 +2,33 @@ import { Month } from "@/model/Month";
 import { Spot } from "../../model/Spot";
 import { Edit2, Trash2 } from "lucide-react";
 import { Card, CardHeader, CardContent } from "./Card";
+import Image from "next/image";
+import Link from "next/link";
 
 interface BirdwatchingSpotsTableProps {
   spots: Spot[];
   currentMonth: Month;
+  monthPart: 0 | 1 | 2;
 }
 
 export default function BirdwatchingSpotsTable({
   spots,
   currentMonth,
+  monthPart,
 }: BirdwatchingSpotsTableProps) {
-  console.log({ spots });
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {spots.map((spot) => (
         <Card key={spot.id} className="overflow-hidden">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-            <h2 className="text-lg font-semibold">{spot.name}</h2>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+            <div>
+              <h2 className="text-lg font-semibold">
+                <Link href={`https://zoopicker.com/places/${spot.id}`}>
+                  {spot.name}
+                </Link>
+              </h2>
+              <p className="text-sm text-gray-500">{spot.address}</p>
+            </div>
             <div className="flex gap-2">
               <button className="text-gray-500 hover:text-gray-700">
                 <Edit2 className="w-4 h-4" />
@@ -31,19 +41,26 @@ export default function BirdwatchingSpotsTable({
           <CardContent>
             <div className="grid grid-cols-3 gap-2">
               {spot.birds.slice(0, 3).map((bird, index) => (
-                <div
+                <Link
                   key={index}
+                  href={`https://zoopicker.com/animals/${bird.id}`}
                   className="relative aspect-square rounded-lg overflow-hidden group"
                 >
-                  <img
-                    src={`/globe.svg?height=200&width=200`}
+                  <Image
+                    src={bird.imageUrl}
                     alt={bird.name}
+                    width={300}
+                    height={300}
                     className="object-cover w-full h-full"
                   />
                   <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded">
-                    {Math.round(bird[`${currentMonth}Frequency`][0])}%
+                    {/* なぜか丸め誤差が発生することがあるので切り捨てする */}
+                    {Math.floor(
+                      bird[`${currentMonth}Frequency`][monthPart] * 1000
+                    ) / 10}
+                    %
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </CardContent>

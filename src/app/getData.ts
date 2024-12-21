@@ -10,23 +10,12 @@ export async function getBirdwatchingSpots(): Promise<Spot[]> {
     });
     return spots.map((spot) => ({
       ...spot,
-      birds: [
-        {
-          name: "bird",
-          JanFrequency: [1],
-          FebFrequency: [1],
-          MarFrequency: [1],
-          AprFrequency: [1],
-          MayFrequency: [1],
-          JunFrequency: [1],
-          JulFrequency: [1],
-          AugFrequency: [1],
-          SepFrequency: [1],
-          OctFrequency: [1],
-          NovFrequency: [1],
-          DecFrequency: [1],
-        },
-      ],
+      birds: spot.spotbirds.map((spotbird) => ({
+        ...spotbird,
+        id: spotbird.bird.id,
+        name: spotbird.bird.name,
+        imageUrl: spotbird.bird.imageUrl,
+      })),
     }));
   } catch (error) {
     console.error("Error fetching data from Prisma:", error);

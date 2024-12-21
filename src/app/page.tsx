@@ -9,6 +9,7 @@ export default async function Home() {
   const currentMonth = new Date().toLocaleString("default", {
     month: "short",
   }) as Month;
+  const monthPart = Math.floor((new Date().getDate() - 1) / 10) as 0 | 1 | 2;
 
   const sortedSpots = spots.sort((a, b) => {
     return b[currentMonth] - a[currentMonth];
@@ -44,6 +45,7 @@ export default async function Home() {
         <BirdwatchingSpotsTable
           spots={sortedSpots}
           currentMonth={currentMonth}
+          monthPart={monthPart}
         />
       </main>
     </>

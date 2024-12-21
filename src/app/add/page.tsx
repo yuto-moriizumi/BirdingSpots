@@ -4,11 +4,15 @@ import React, { useState } from "react";
 import { addSpot } from "@/addSpot";
 import Link from "next/link";
 import { URLForm } from "./_components/URLForm";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MONTH } from "@/model/Month";
+import { Button } from "../_components/Button";
+import { BirdForm } from "./_components/BirdForm";
+import { Spot } from "@/model/Spot";
 
+const frequencySchema = z.array(z.number().min(0).max(1)).length(3);
 const schema = z.object({
   id: z.string().nonempty(),
   name: z.string().nonempty(),
@@ -25,6 +29,25 @@ const schema = z.object({
   Oct: z.number().min(0),
   Nov: z.number().min(0),
   Dec: z.number().min(0),
+  birds: z.array(
+    z.object({
+      id: z.number().nonnegative(),
+      name: z.string().nonempty(),
+      imageUrl: z.string().nonempty(),
+      JanFrequency: frequencySchema,
+      FebFrequency: frequencySchema,
+      MarFrequency: frequencySchema,
+      AprFrequency: frequencySchema,
+      MayFrequency: frequencySchema,
+      JunFrequency: frequencySchema,
+      JulFrequency: frequencySchema,
+      AugFrequency: frequencySchema,
+      SepFrequency: frequencySchema,
+      OctFrequency: frequencySchema,
+      NovFrequency: frequencySchema,
+      DecFrequency: frequencySchema,
+    })
+  ),
 });
 type Schema = z.infer<typeof schema>;
 
@@ -34,14 +57,21 @@ export default function AddSpotPage() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    control,
     setValue,
+    reset,
   } = useForm<Schema>({ resolver: zodResolver(schema) });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "birds",
+  });
 
   const onSubmit = async (data: Schema) => {
     try {
       const success = await addSpot(data);
       if (success) {
         setMessage("Spot added successfully!");
+        reset();
       } else {
         setMessage("Failed to add spot.");
       }
@@ -57,11 +87,18 @@ export default function AddSpotPage() {
       <URLForm
         onData={(data) => {
           Object.entries(data).forEach(([key, value]) => {
-            setValue(key as keyof Schema, value);
+            setValue(key as keyof Spot, value);
           });
         }}
       />
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 mt-5">
+        <Button
+          type="submit"
+          className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Loading..." : "Submit"}
+        </Button>
         {message && <p className="text-center text-green-500">{message}</p>}
         <label className="flex items-center space-x-2">
           <span className="text-gray-700 w-16">ID:</span>
@@ -105,13 +142,66 @@ export default function AddSpotPage() {
             )}
           </label>
         ))}
-        <button
-          type="submit"
-          className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "Loading..." : "Submit"}
-        </button>
+        <div>
+          <h2 className="text-xl font-bold mb-3">Birds</h2>
+          {fields.map((bird, index) => (
+            <div key={bird.id} className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h3>{bird.name}</h3>
+                <Button onClick={() => remove(index)} size="sm">
+                  Remove Bird
+                </Button>
+              </div>
+              {MONTH.map((month) => (
+                <label key={month} className="flex items-center space-x-2">
+                  <span className="text-gray-700 w-16">{month}</span>
+                  <input
+                    type="number"
+                    step="0.001"
+                    {...register(`birds.${index}.${month}Frequency.0`)}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                  <input
+                    type="number"
+                    step="0.001"
+                    {...register(`birds.${index}.${month}Frequency.1`)}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                  <input
+                    type="number"
+                    step="0.001"
+                    {...register(`birds.${index}.${month}Frequency.2`)}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                  {errors.birds?.[index]?.[`${month}Frequency`] && (
+                    <p className="text-red-500">
+                      {errors.birds[index][`${month}Frequency`]?.message}
+                    </p>
+                  )}
+                </label>
+              ))}
+            </div>
+          ))}
+        </div>
+        <BirdForm
+          onData={(bird) =>
+            append({
+              ...bird,
+              JanFrequency: [0, 0, 0],
+              FebFrequency: [0, 0, 0],
+              MarFrequency: [0, 0, 0],
+              AprFrequency: [0, 0, 0],
+              MayFrequency: [0, 0, 0],
+              JunFrequency: [0, 0, 0],
+              JulFrequency: [0, 0, 0],
+              AugFrequency: [0, 0, 0],
+              SepFrequency: [0, 0, 0],
+              OctFrequency: [0, 0, 0],
+              NovFrequency: [0, 0, 0],
+              DecFrequency: [0, 0, 0],
+            })
+          }
+        />
       </form>
     </div>
   );
