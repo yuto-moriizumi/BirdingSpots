@@ -5,7 +5,7 @@ datasource db {
 
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["rhel-openssl-1.0.x", "windows"]
+  binaryTargets = ["rhel-openssl-3.0.x", "windows"]
 }
 
 // This is your Prisma schema file,
