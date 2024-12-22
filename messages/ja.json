@@ -1,0 +1,17 @@
+{
+  "Home": {
+    "add": "探鳥地を追加",
+    "list": "探鳥地一覧",
+    "popularity": "今月の人気度",
+    "filter": "非表示にする鳥を選択"
+  },
+  "AddSpotPage": {
+    "title": "探鳥地を追加",
+    "fetch": "URLからデータを取得",
+    "submit": "追加",
+    "submitting": "追加中…",
+    "birds": "鳥",
+    "addBird": "鳥を追加",
+    "goBack": "一覧へ戻る"
+  }
+}

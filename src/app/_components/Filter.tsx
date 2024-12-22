@@ -1,17 +1,12 @@
 "use client";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Tag, TagInput } from "emblor";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 const FormSchema = z.object({
   topics: z.array(
@@ -35,6 +30,8 @@ export default function Filter(props: {
 
   const { setValue } = form;
 
+  const t = useTranslations("Home");
+
   return (
     <Form {...form}>
       <form className="space-y-8 flex flex-col items-start">
@@ -47,7 +44,7 @@ export default function Filter(props: {
                 {/** @ts-expect-error TagInputの型定義がおかしいので無視 */}
                 <TagInput
                   {...field}
-                  placeholder="非表示にする鳥を選択"
+                  placeholder={t("filter")}
                   tags={props.tags}
                   setTags={(newTags) => {
                     props.setTags(newTags as Tag[]);
@@ -68,7 +65,6 @@ export default function Filter(props: {
                   }}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />

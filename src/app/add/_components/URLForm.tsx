@@ -5,6 +5,7 @@ import { Spot } from "@/model/Spot";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 
 const schema = z.object({
   url: z.string().url(),
@@ -21,6 +22,8 @@ export function URLForm(props: { onData: (data: Spot) => void }) {
     setValue,
     reset,
   } = useForm<Schema>({ resolver: zodResolver(schema) });
+
+  const t = useTranslations("AddSpotPage");
 
   const onSubmit = async (data: { url: string; dataURL: string }) => {
     try {
@@ -76,7 +79,7 @@ export function URLForm(props: { onData: (data: Spot) => void }) {
         className="w-full py-2 px-4 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         disabled={isSubmitting}
       >
-        {isSubmitting ? "Loading..." : "Fetch Data"}
+        {isSubmitting ? "Loading..." : t("fetch")}
       </button>
     </form>
   );

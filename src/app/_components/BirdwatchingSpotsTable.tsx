@@ -10,6 +10,7 @@ import { BIRDS_PER_SPOT } from "@/constants";
 import Filter from "./Filter";
 import { Tag } from "emblor";
 import { useStoredTags } from "../_util/useStorage";
+import { useTranslations } from "next-intl";
 
 interface BirdwatchingSpotsTableProps {
   spots: Spot[];
@@ -26,6 +27,7 @@ export default function BirdwatchingSpotsTable({
 }: BirdwatchingSpotsTableProps) {
   const { tags, setTags } = useStoredTags();
   const idsToHide = tags.map((tag) => parseInt(tag.id));
+  const t = useTranslations("Home");
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function BirdwatchingSpotsTable({
                     </Link>
                   </h2>
                   <p className="text-sm text-gray-500">
-                    今月の人気度: {spot[currentMonth]}
+                    {t("popularity")}: {spot[currentMonth]}
                   </p>
                 </div>
                 <p className="text-sm text-gray-500">{spot.address}</p>

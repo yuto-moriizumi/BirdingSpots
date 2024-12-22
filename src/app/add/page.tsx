@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { addSpot } from "@/app/add/_util/addSpot";
 import Link from "next/link";
 import { URLForm } from "./_components/URLForm";
@@ -11,6 +11,7 @@ import { MONTH } from "@/model/Month";
 import { Button } from "../_components/Button";
 import { BirdForm } from "./_components/BirdForm";
 import { Spot } from "@/model/Spot";
+import { useTranslations } from "next-intl";
 
 const frequencySchema = z.array(z.number().min(0).max(1)).length(3);
 const schema = z.object({
@@ -66,6 +67,8 @@ export default function AddSpotPage() {
     name: "birds",
   });
 
+  const t = useTranslations("AddSpotPage");
+
   const onSubmit = async (data: Schema) => {
     try {
       const success = await addSpot(data);
@@ -82,8 +85,8 @@ export default function AddSpotPage() {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <Link href="/">一覧へ戻る</Link>
-      <h1 className="text-2xl font-bold mb-5">探鳥地を追加</h1>
+      <Link href="/">{t("goBack")}</Link>
+      <h1 className="text-2xl font-bold mb-5">{t("title")}</h1>
       <URLForm
         onData={(data) => {
           Object.entries(data).forEach(([key, value]) => {
@@ -97,7 +100,7 @@ export default function AddSpotPage() {
           className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Loading..." : "Submit"}
+          {isSubmitting ? t("submitting") : t("submit")}
         </Button>
         {message && <p className="text-center text-green-500">{message}</p>}
         <label className="flex items-center space-x-2">
@@ -143,7 +146,7 @@ export default function AddSpotPage() {
           </label>
         ))}
         <div>
-          <h2 className="text-xl font-bold mb-3">Birds</h2>
+          <h2 className="text-xl font-bold mb-3">{t("birds")}</h2>
           {fields.map((bird, index) => (
             <div key={bird.id} className="space-y-3">
               <div className="flex items-center justify-between">
