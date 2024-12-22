@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getBird } from "../_util/getBird";
 import { Bird } from "@/model/Bird";
 import { Button } from "@/app/_components/Button";
+import { useTranslations } from "next-intl";
 
 interface Props {
   onData: (bird: Bird) => void;
@@ -9,6 +10,7 @@ interface Props {
 
 export function BirdForm(props: Props) {
   const [id, setId] = useState<number | undefined>(undefined);
+  const t = useTranslations("AddSpotPage");
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -28,7 +30,7 @@ export function BirdForm(props: Props) {
           onChange={(e) => setId(Number(e.target.value))}
         />
       </label>
-      <Button type="submit">Add</Button>
+      <Button type="submit">{t("addBird")}</Button>
     </div>
   );
 }

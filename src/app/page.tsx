@@ -4,6 +4,8 @@ import { Month } from "../model/Month";
 import Link from "next/link";
 import { Button } from "./_components/Button";
 import { getBirdSuggest } from "./_util/getBirdSuggest";
+import { useTranslations } from "next-intl";
+import LocaleSwitcher from "./_components/LocaleSwitcher";
 
 export default async function Home() {
   const spots = await getBirdwatchingSpots();
@@ -18,8 +20,8 @@ export default async function Home() {
 
   return (
     <>
-      <header className="flex items-center justify-between mb-6 p-8">
-        <div className="flex items-center gap-2">
+      <header className="flex items-center justify-end mb-6 p-8 gap-2">
+        <div className="flex items-center gap-2 mr-auto">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -37,12 +39,11 @@ export default async function Home() {
           </svg>
           <h1 className="text-2xl font-semibold">BirdingSpots</h1>
         </div>
-        <Link href="/add">
-          <Button variant="default">探鳥地を追加</Button>
-        </Link>
+        <AddSpotButton />
+        <LocaleSwitcher />
       </header>
       <main className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">探鳥地一覧</h1>
+        <ListSectionTitle />
         <BirdwatchingSpotsTable
           spots={sortedSpots}
           currentMonth={currentMonth}
@@ -55,4 +56,18 @@ export default async function Home() {
       </main>
     </>
   );
+}
+
+function AddSpotButton() {
+  const t = useTranslations("Home");
+  return (
+    <Link href="/add">
+      <Button variant="default">{t("add")}</Button>
+    </Link>
+  );
+}
+
+function ListSectionTitle() {
+  const t = useTranslations("Home");
+  return <h1 className="text-2xl font-bold mb-4">{t("list")}</h1>;
 }

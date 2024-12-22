@@ -1,0 +1,17 @@
+{
+  "Home": {
+    "add": "Add a new spot",
+    "list": "List of birding spots",
+    "popularity": "Popularity this month",
+    "filter": "Select birds to hide"
+  },
+  "AddSpotPage": {
+    "title": "Add a new birding spot",
+    "fetch": "Fetch data from URL",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "birds": "Birds",
+    "addBird": "Add a bird",
+    "goBack": "Go back"
+  }
+}
