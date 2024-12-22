@@ -6,6 +6,7 @@ import { Button } from "./_components/Button";
 import { getBirdSuggest } from "./_util/getBirdSuggest";
 import { useTranslations } from "next-intl";
 import LocaleSwitcher from "./_components/LocaleSwitcher";
+import { BirdIcon } from "lucide-react";
 
 export default async function Home() {
   const spots = await getBirdwatchingSpots();
@@ -20,29 +21,15 @@ export default async function Home() {
 
   return (
     <>
-      <header className="flex items-center justify-end mb-6 p-8 gap-2">
+      <header className="flex items-center justify-end p-8 gap-2">
         <div className="flex items-center gap-2 mr-auto">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="w-6 h-6 text-emerald-500"
-          >
-            <path d="M16 8v8" />
-            <path d="M8 9.5v5" />
-            <path d="M12 6v10" />
-            <path d="M2 2a4 4 0 0 1 4 4v9.5a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V6a4 4 0 0 1 4-4" />
-          </svg>
+          <BirdIcon size={32} />
           <h1 className="text-2xl font-semibold">BirdingSpots</h1>
         </div>
         <AddSpotButton />
         <LocaleSwitcher />
       </header>
-      <main className="container mx-auto p-4">
+      <main className="container mx-auto px-3">
         <ListSectionTitle />
         <BirdwatchingSpotsTable
           spots={sortedSpots}
@@ -69,5 +56,5 @@ function AddSpotButton() {
 
 function ListSectionTitle() {
   const t = useTranslations("Home");
-  return <h1 className="text-2xl font-bold mb-4">{t("list")}</h1>;
+  return <h1 className="text-2xl font-bold mb-3">{t("list")}</h1>;
 }
