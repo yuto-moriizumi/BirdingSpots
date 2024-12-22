@@ -18,13 +18,14 @@ export default async function Home() {
   const sortedSpots = spots.sort((a, b) => {
     return b[currentMonth] - a[currentMonth];
   });
+  const time = new Date().toLocaleTimeString();
 
   return (
     <>
       <header className="flex items-center justify-end p-8 gap-2">
         <div className="flex items-center gap-2 mr-auto">
           <BirdIcon size={32} />
-          <h1 className="text-2xl font-semibold">BirdingSpots</h1>
+          <h1 className="text-2xl font-semibold">BirdingSpots {time}</h1>
         </div>
         <AddSpotButton />
         <LocaleSwitcher />
