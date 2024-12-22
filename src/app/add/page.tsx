@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { addSpot } from "@/addSpot";
+import { addSpot } from "@/app/add/_util/addSpot";
 import Link from "next/link";
 import { URLForm } from "./_components/URLForm";
 import { useFieldArray, useForm } from "react-hook-form";
