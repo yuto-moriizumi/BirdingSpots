@@ -59,10 +59,10 @@ export default function Filter(props: {
                   autocompleteOptions={props.options}
                   restrictTagsToAutocompleteOptions
                   styleClasses={{
-                    inlineTagsContainer: "p-2",
+                    inlineTagsContainer: "flex flex-wrap gap-1 p-1",
                     tag: {
-                      body: "bg-gray-200 pl-3 rounded-full",
-                      closeButton: "text-gray-500",
+                      body: "bg-gray-200 pl-2 rounded-full",
+                      closeButton: "text-gray-500 px-0 pr-1",
                     },
                     input: "bg-gray-200 pl-3",
                   }}
