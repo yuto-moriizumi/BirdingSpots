@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Tag, TagInput } from "emblor";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useStoredTags } from "../_util/useStorage";
 
 const FormSchema = z.object({
   topics: z.array(
@@ -17,11 +18,8 @@ const FormSchema = z.object({
   ),
 });
 
-export default function Filter(props: {
-  tags: Tag[];
-  setTags: (tags: Tag[]) => void;
-  options: Tag[];
-}) {
+export default function Filter(props: { options: Tag[] }) {
+  const { tags, setTags } = useStoredTags();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -45,9 +43,9 @@ export default function Filter(props: {
                 <TagInput
                   {...field}
                   placeholder={t("filter")}
-                  tags={props.tags}
+                  tags={tags}
                   setTags={(newTags) => {
-                    props.setTags(newTags as Tag[]);
+                    setTags(newTags as Tag[]);
                     setValue("topics", newTags as [Tag, ...Tag[]]);
                   }}
                   activeTagIndex={activeTagIndex}

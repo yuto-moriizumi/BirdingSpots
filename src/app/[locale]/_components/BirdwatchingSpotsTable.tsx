@@ -1,18 +1,14 @@
-"use client";
-
 import { Month } from "@/model/Month";
 import { Spot } from "../../../model/Spot";
 import { Edit2, Trash2 } from "lucide-react";
 import { Card, CardHeader, CardContent } from "./Card";
-import Image from "next/image";
-import { BIRDS_PER_SPOT } from "@/constants";
 import Filter from "./Filter";
 import { Tag } from "emblor";
-import { useStoredTags } from "../_util/useStorage";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
+import { BirdImages } from "./BirdImages";
 
-interface BirdwatchingSpotsTableProps {
+interface Props {
   spots: Spot[];
   currentMonth: Month;
   monthPart: 0 | 1 | 2;
@@ -24,14 +20,11 @@ export default function BirdwatchingSpotsTable({
   currentMonth,
   monthPart,
   options,
-}: BirdwatchingSpotsTableProps) {
-  const { tags, setTags } = useStoredTags();
-  const idsToHide = tags.map((tag) => parseInt(tag.id));
+}: Props) {
   const t = useTranslations("Home");
-
   return (
     <>
-      <Filter options={options} tags={tags} setTags={setTags} />
+      <Filter options={options} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
         {spots.map((spot) => (
           <Card key={spot.id} className="overflow-hidden">
@@ -59,38 +52,11 @@ export default function BirdwatchingSpotsTable({
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-3 gap-2">
-                {spot.birds
-                  .filter((bird) => !idsToHide.includes(bird.id))
-                  .sort(
-                    (a, b) =>
-                      b[`${currentMonth}Frequency`][monthPart] -
-                      a[`${currentMonth}Frequency`][monthPart]
-                  )
-                  .slice(0, BIRDS_PER_SPOT)
-                  .map((bird, index) => (
-                    <Link
-                      key={index}
-                      href={`https://zoopicker.com/animals/${bird.id}`}
-                      className="relative aspect-square rounded-lg overflow-hidden group"
-                    >
-                      <Image
-                        src={bird.imageUrl}
-                        alt={bird.name}
-                        width={300}
-                        height={300}
-                        className="object-cover w-full h-full"
-                      />
-                      <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded">
-                        {/* なぜか丸め誤差が発生することがあるので切り捨てする */}
-                        {Math.floor(
-                          bird[`${currentMonth}Frequency`][monthPart] * 1000
-                        ) / 10}
-                        %
-                      </div>
-                    </Link>
-                  ))}
-              </div>
+              <BirdImages
+                birds={spot.birds}
+                currentMonth={currentMonth}
+                monthPart={monthPart}
+              />
             </CardContent>
           </Card>
         ))}
