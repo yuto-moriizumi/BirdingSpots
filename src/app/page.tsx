@@ -35,7 +35,7 @@ export default async function Home() {
             <path d="M12 6v10" />
             <path d="M2 2a4 4 0 0 1 4 4v9.5a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V6a4 4 0 0 1 4-4" />
           </svg>
-          <h1 className="text-2xl font-semibold">Birdwatcher</h1>
+          <h1 className="text-2xl font-semibold">BirdingSpots</h1>
         </div>
         <Link href="/add">
           <Button variant="default">探鳥地を追加</Button>
