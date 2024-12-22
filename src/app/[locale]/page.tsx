@@ -58,3 +58,8 @@ function ListSectionTitle() {
   const t = useTranslations("Home");
   return <h1 className="text-2xl font-bold mb-3">{t("list")}</h1>;
 }
+
+/**
+ * Revalidate once a minute
+ */
+export const revalidate = 60;
