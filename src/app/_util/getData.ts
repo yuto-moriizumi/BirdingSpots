@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Spot } from "../model/Spot";
+import { Spot } from "../../model/Spot";
 
 const prisma = new PrismaClient();
 

@@ -1,8 +1,9 @@
 "use server";
 
 import { PrismaClient } from "@prisma/client";
-import { MonthRecord } from "./model/MonthRecord";
-import { SpotBird } from "./model/SpotBird";
+import { MonthRecord } from "../../../model/MonthRecord";
+import { SpotBird } from "../../../model/SpotBird";
+import { revalidatePath } from "next/cache";
 
 const prisma = new PrismaClient();
 
@@ -13,7 +14,7 @@ export type SpotCreate = MonthRecord & {
   birds: Omit<SpotBird, "name" | "imageUrl">[];
 };
 
-export const addSpot = async (spotData: SpotCreate) => {
+export async function addSpot(spotData: SpotCreate) {
   try {
     const spot = {
       id: spotData.id,
@@ -56,6 +57,7 @@ export const addSpot = async (spotData: SpotCreate) => {
       })),
       skipDuplicates: true,
     });
+    revalidatePath("/");
     return true;
   } catch (error) {
     console.error("Error adding spot:", error);
@@ -63,4 +65,4 @@ export const addSpot = async (spotData: SpotCreate) => {
   } finally {
     await prisma.$disconnect();
   }
-};
+}
