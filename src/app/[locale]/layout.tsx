@@ -49,3 +49,12 @@ export default async function RootLayout({
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
+
+/**
+ * Force static generation of all paths.
+ * Pages using dynamic functions (e.g. `new Date`) will be dynamical rendered by default even `generateStaticParams` is defined.
+ * This behavior can be changed by setting `dynamic` to `"force-static"`.
+ * Note that without `revalidate`, the page will be never rerendered.
+ * @see https://nextjs.org/docs/app/api-reference/functions/generate-static-params#all-paths-at-runtime
+ */
+export const dynamic = "force-static";
