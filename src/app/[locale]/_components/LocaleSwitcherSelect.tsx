@@ -7,8 +7,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { setUserLocale } from "@/i18n/locale";
+import { usePathname, useRouter } from "@/i18n/routing";
 import clsx from "clsx";
+import { useParams } from "next/navigation";
 import { useTransition } from "react";
 
 type Props = {
@@ -18,11 +19,20 @@ type Props = {
 
 export default function LocaleSwitcherSelect({ defaultValue, items }: Props) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useParams();
 
   function onChange(value: string) {
     const locale = value;
     startTransition(() => {
-      setUserLocale(locale as "ja" | "en");
+      router.replace(
+        // @ts-expect-error -- TypeScript will validate that only known `params`
+        // are used in combination with a given `pathname`. Since the two will
+        // always match for the current route, we can skip runtime checks.
+        { pathname, params },
+        { locale }
+      );
     });
   }
 

@@ -1,16 +1,16 @@
 "use client";
 
 import { Month } from "@/model/Month";
-import { Spot } from "../../model/Spot";
+import { Spot } from "../../../model/Spot";
 import { Edit2, Trash2 } from "lucide-react";
 import { Card, CardHeader, CardContent } from "./Card";
 import Image from "next/image";
-import Link from "next/link";
 import { BIRDS_PER_SPOT } from "@/constants";
 import Filter from "./Filter";
 import { Tag } from "emblor";
 import { useStoredTags } from "../_util/useStorage";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 
 interface BirdwatchingSpotsTableProps {
   spots: Spot[];

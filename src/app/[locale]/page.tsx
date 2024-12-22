@@ -1,12 +1,12 @@
 import BirdwatchingSpotsTable from "./_components/BirdwatchingSpotsTable";
 import { getBirdwatchingSpots } from "./_util/getData";
-import { Month } from "../model/Month";
-import Link from "next/link";
+import { Month } from "@/model/Month";
 import { Button } from "./_components/Button";
 import { getBirdSuggest } from "./_util/getBirdSuggest";
 import { useTranslations } from "next-intl";
 import LocaleSwitcher from "./_components/LocaleSwitcher";
 import { BirdIcon } from "lucide-react";
+import { Link } from "@/i18n/routing";
 
 export default async function Home() {
   const spots = await getBirdwatchingSpots();

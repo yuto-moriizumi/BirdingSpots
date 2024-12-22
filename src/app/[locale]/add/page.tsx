@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { addSpot } from "@/app/add/_util/addSpot";
-import Link from "next/link";
 import { URLForm } from "./_components/URLForm";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -12,6 +10,8 @@ import { Button } from "../_components/Button";
 import { BirdForm } from "./_components/BirdForm";
 import { Spot } from "@/model/Spot";
 import { useTranslations } from "next-intl";
+import { addSpot } from "./_util/addSpot";
+import { Link } from "@/i18n/routing";
 
 const frequencySchema = z.array(z.number().min(0).max(1)).length(3);
 const schema = z.object({
