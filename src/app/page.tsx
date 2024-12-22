@@ -1,5 +1,5 @@
 import BirdwatchingSpotsTable from "./_components/BirdwatchingSpotsTable";
-import { getBirdwatchingSpots } from "./getData";
+import { getBirdwatchingSpots } from "./_util/getData";
 import { Month } from "../model/Month";
 import Link from "next/link";
 import { Button } from "./_components/Button";
