@@ -26,17 +26,17 @@ export default async function Home({ params }: I18nPageProps) {
 
   return (
     <>
-      <header className="flex items-center justify-end p-8 gap-2">
-        <div className="flex items-center gap-2 mr-auto">
+      <header className="container mx-auto flex p-3">
+        <div className="flex gap-2">
           <BirdIcon size={32} />
-          <h1 className="text-2xl font-semibold">
-            BirdingSpots {new Date().toLocaleTimeString()}
-          </h1>
+          <h1 className="text-2xl font-semibold">BirdingSpots</h1>
         </div>
-        <Link href="/add">
-          <Button variant="default">{t("add")}</Button>
-        </Link>
-        <LocaleSwitcher />
+        <div className="flex gap-2 flex-wrap flex-grow justify-end">
+          <Link href="/add">
+            <Button variant="default">{t("add")}</Button>
+          </Link>
+          <LocaleSwitcher />
+        </div>
       </header>
       <main className="container mx-auto px-3">
         <h1 className="text-2xl font-bold mb-3">{t("list")}</h1>
