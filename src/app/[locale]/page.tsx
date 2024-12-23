@@ -3,12 +3,17 @@ import { getBirdwatchingSpots } from "./_util/getData";
 import { Month } from "@/model/Month";
 import { Button } from "./_components/Button";
 import { getBirdSuggest } from "./_util/getBirdSuggest";
-import { useTranslations } from "next-intl";
 import LocaleSwitcher from "./_components/LocaleSwitcher";
 import { BirdIcon } from "lucide-react";
 import { Link } from "@/i18n/routing";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { I18nPageProps } from "@/model/I18nPageProps";
 
-export default async function Home() {
+export default async function Home({ params }: I18nPageProps) {
+  // Enable static rendering
+  setRequestLocale((await params).locale);
+  const t = await getTranslations("Home");
+
   const spots = await getBirdwatchingSpots();
   const currentMonth = new Date().toLocaleString("default", {
     month: "short",
@@ -24,13 +29,17 @@ export default async function Home() {
       <header className="flex items-center justify-end p-8 gap-2">
         <div className="flex items-center gap-2 mr-auto">
           <BirdIcon size={32} />
-          <h1 className="text-2xl font-semibold">BirdingSpots</h1>
+          <h1 className="text-2xl font-semibold">
+            BirdingSpots {new Date().toLocaleTimeString()}
+          </h1>
         </div>
-        <AddSpotButton />
+        <Link href="/add">
+          <Button variant="default">{t("add")}</Button>
+        </Link>
         <LocaleSwitcher />
       </header>
       <main className="container mx-auto px-3">
-        <ListSectionTitle />
+        <h1 className="text-2xl font-bold mb-3">{t("list")}</h1>
         <BirdwatchingSpotsTable
           spots={sortedSpots}
           currentMonth={currentMonth}
@@ -45,21 +54,5 @@ export default async function Home() {
   );
 }
 
-function AddSpotButton() {
-  const t = useTranslations("Home");
-  return (
-    <Link href="/add">
-      <Button variant="default">{t("add")}</Button>
-    </Link>
-  );
-}
-
-function ListSectionTitle() {
-  const t = useTranslations("Home");
-  return <h1 className="text-2xl font-bold mb-3">{t("list")}</h1>;
-}
-
-/**
- * Revalidate once a minute
- */
-export const revalidate = 60;
+// 最後の生成から1分以後にアクセスされた場合は再生成する
+export const revalidate = 10;
