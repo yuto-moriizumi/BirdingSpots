@@ -30,7 +30,7 @@ export default function BirdwatchingSpotsTable({
           <Card key={spot.id} className="overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
               <div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center flex-wrap gap-x-2">
                   <h2 className="text-lg font-semibold">
                     <Link href={`https://zoopicker.com/places/${spot.id}`}>
                       {spot.name}

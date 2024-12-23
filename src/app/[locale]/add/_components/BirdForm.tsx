@@ -3,6 +3,7 @@ import { getBird } from "../_util/getBird";
 import { Bird } from "@/model/Bird";
 import { Button } from "@/app/[locale]/_components/Button";
 import { useTranslations } from "next-intl";
+import { Input } from "@/components/ui/input";
 
 interface Props {
   onData: (bird: Bird) => void;
@@ -21,16 +22,18 @@ export function BirdForm(props: Props) {
   };
 
   return (
-    <div onSubmit={handleSubmit}>
-      <label>
-        Bird ID:
-        <input
+    <div onSubmit={handleSubmit} className="flex items-center gap-1">
+      <label className="flex flex-grow  items-center">
+        <span className="flex-none">Bird ID:</span>
+        <Input
           type="number"
           value={id ?? ""}
           onChange={(e) => setId(Number(e.target.value))}
         />
       </label>
-      <Button type="submit">{t("addBird")}</Button>
+      <Button type="submit" size="sm" className="flex-none">
+        {t("addBird")}
+      </Button>
     </div>
   );
 }
