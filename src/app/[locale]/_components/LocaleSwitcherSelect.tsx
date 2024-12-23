@@ -7,10 +7,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { usePathname, useRouter } from "@/i18n/routing";
+import { routing, usePathname, useRouter } from "@/i18n/routing";
 import clsx from "clsx";
 import { useParams } from "next/navigation";
+
 import { useTransition } from "react";
+import { setUserLocale } from "../_util/setLocale";
 
 type Props = {
   defaultValue: string;
@@ -26,13 +28,17 @@ export default function LocaleSwitcherSelect({ defaultValue, items }: Props) {
   function onChange(value: string) {
     const locale = value;
     startTransition(() => {
-      router.replace(
-        // @ts-expect-error -- TypeScript will validate that only known `params`
-        // are used in combination with a given `pathname`. Since the two will
-        // always match for the current route, we can skip runtime checks.
-        { pathname, params },
-        { locale }
-      );
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore -- next-intlの型定義ミス
+      if (routing.localePrefix === "never") setUserLocale(locale);
+      else
+        router.push(
+          // @ts-expect-error -- TypeScript will validate that only known `params`
+          // are used in combination with a given `pathname`. Since the two will
+          // always match for the current route, we can skip runtime checks.
+          { pathname, params },
+          { locale }
+        );
     });
   }
 

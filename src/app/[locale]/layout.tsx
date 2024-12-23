@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
@@ -33,6 +33,8 @@ export default async function RootLayout({
   if (!routing.locales.includes((await params).locale as any)) {
     notFound();
   }
+  // Enable static rendering
+  setRequestLocale((await params).locale);
   const messages = await getMessages();
   return (
     <html lang={(await params).locale}>
@@ -51,12 +53,3 @@ export default async function RootLayout({
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
-
-/**
- * Force static generation of all paths.
- * Pages using dynamic functions (e.g. `new Date`) will be dynamical rendered by default even `generateStaticParams` is defined.
- * This behavior can be changed by setting `dynamic` to `"force-static"`.
- * Note that without `revalidate`, the page will be never rerendered.
- * @see https://nextjs.org/docs/app/api-reference/functions/generate-static-params#all-paths-at-runtime
- */
-export const dynamic = "force-static";
