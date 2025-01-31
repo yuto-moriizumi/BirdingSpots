@@ -9,6 +9,7 @@ import { Link } from "@/i18n/routing";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { I18nPageProps } from "@/model/I18nPageProps";
 
+type MonthPart = 0 | 1 | 2;
 export default async function Home({ params }: I18nPageProps) {
   // Enable static rendering
   setRequestLocale((await params).locale);
@@ -18,7 +19,10 @@ export default async function Home({ params }: I18nPageProps) {
   const currentMonth = new Date().toLocaleString("default", {
     month: "short",
   }) as Month;
-  const monthPart = Math.floor((new Date().getDate() - 1) / 10) as 0 | 1 | 2;
+  const monthPart = Math.min(
+    Math.floor((new Date().getDate() - 1) / 10),
+    2
+  ) as MonthPart;
 
   const sortedSpots = spots.sort((a, b) => {
     return b[currentMonth] - a[currentMonth];
