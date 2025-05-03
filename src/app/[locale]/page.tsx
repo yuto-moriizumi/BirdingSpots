@@ -16,7 +16,7 @@ export default async function Home({ params }: I18nPageProps) {
   const t = await getTranslations("Home");
 
   const spots = await getBirdwatchingSpots();
-  const currentMonth = new Date().toLocaleString("default", {
+  const currentMonth = new Date().toLocaleString("en-US", {
     month: "short",
   }) as Month;
   const monthPart = Math.min(
