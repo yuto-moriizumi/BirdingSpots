@@ -16,13 +16,10 @@ export async function getSpotData(
   dataURL: string
 ): Promise<Omit<Spot, "id">> {
   try {
-    const birdsPromise = Promise.all(
-      [...new Array(MAX_PAGE)].map((_, i) => getSpotBirds(id, i + 1))
-    ).then((arr) => arr.flat());
     const [basicInfo, monthRecord, birds] = await Promise.all([
       getBasicInfo(id),
       imgToMonthRecord(dataURL),
-      birdsPromise,
+      getSpotBirds(id),
     ]);
 
     // 鳥情報を追加する
@@ -46,6 +43,13 @@ export async function getSpotData(
   }
 }
 
+/** 指定したスポットIDの野鳥情報をMAX_PAGE目まで取得する */
+export async function getSpotBirds(id: string) {
+  return Promise.all(
+    [...new Array(MAX_PAGE)].map((_, i) => getSpotBirdsByPage(id, i + 1))
+  ).then((arr) => arr.flat());
+}
+
 async function getBasicInfo(id: string): Promise<{
   name: string;
   address: string;
@@ -64,7 +68,10 @@ async function getBasicInfo(id: string): Promise<{
 }
 
 /** @param page 1-indexed */
-async function getSpotBirds(id: string, page: number): Promise<SpotBird[]> {
+async function getSpotBirdsByPage(
+  id: string,
+  page: number
+): Promise<SpotBird[]> {
   const response = await fetch(
     `https://zoopicker.com/places/${id}/birds?page=${page}`
   );
