@@ -8,7 +8,7 @@ import { Spot } from "@/model/Spot";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 import { Button } from "../../_components/Button";
-import { addSpot } from "../_util/addSpot";
+import { upsertSpot } from "../_util/addSpot";
 import { BirdForm } from "./BirdForm";
 import { URLForm } from "./URLForm";
 
@@ -70,7 +70,7 @@ export function AddSpotForm() {
 
   const onSubmit = async (data: Schema) => {
     try {
-      const success = await addSpot(data);
+      const success = await upsertSpot(data);
       if (success) {
         setMessage("Spot added successfully!");
         reset();

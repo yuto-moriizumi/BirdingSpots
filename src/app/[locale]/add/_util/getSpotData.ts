@@ -8,15 +8,21 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+// 何ページ目まで取得するか
+const MAX_PAGE = 2;
+
 export async function getSpotData(
   id: string,
   dataURL: string
 ): Promise<Omit<Spot, "id">> {
   try {
+    const birdsPromise = Promise.all(
+      [...new Array(MAX_PAGE)].map((_, i) => getSpotBirds(id, i + 1))
+    ).then((arr) => arr.flat());
     const [basicInfo, monthRecord, birds] = await Promise.all([
       getBasicInfo(id),
       imgToMonthRecord(dataURL),
-      getSpotBirds(id),
+      birdsPromise,
     ]);
 
     // 鳥情報を追加する
@@ -57,8 +63,11 @@ async function getBasicInfo(id: string): Promise<{
   };
 }
 
-async function getSpotBirds(id: string): Promise<SpotBird[]> {
-  const response = await fetch(`https://zoopicker.com/places/${id}/birds`);
+/** @param page 1-indexed */
+async function getSpotBirds(id: string, page: number): Promise<SpotBird[]> {
+  const response = await fetch(
+    `https://zoopicker.com/places/${id}/birds?page=${page}`
+  );
   if (!response.ok) return [];
   const data = await response.text();
   const dom = new JSDOM(data);

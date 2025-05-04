@@ -14,7 +14,7 @@ export type SpotCreate = MonthRecord & {
   birds: Omit<SpotBird, "name" | "imageUrl">[];
 };
 
-export async function addSpot(spotData: SpotCreate) {
+export async function upsertSpot(spotData: SpotCreate) {
   try {
     const spot = {
       id: spotData.id,
@@ -38,6 +38,7 @@ export async function addSpot(spotData: SpotCreate) {
       create: spot,
       update: spot,
     });
+    await prisma.spotBird.deleteMany({ where: { spotId: spotData.id } });
     await prisma.spotBird.createMany({
       data: spotData.birds.map((bird) => ({
         spotId: spotData.id,
