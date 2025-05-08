@@ -2,7 +2,7 @@
 
 import { useState } from "react"; // Import useState
 import { RefreshCw } from "lucide-react";
-import { CardHeader } from "./Card";
+import { CardHeader } from "@/components/ui/card";
 import { Link } from "@/i18n/routing";
 import { Spot } from "@/model/Spot";
 import { useTranslations } from "next-intl";
