@@ -1,7 +1,12 @@
-import BirdwatchingSpotsTable from "./_components/BirdwatchingSpotsTable";
 import { getBirdwatchingSpots } from "./_util/getData";
 import { Month } from "@/model/Month";
+import { Spot } from "../../model/Spot"; // Added: For spot type in map
 import { Button } from "./_components/Button";
+import { Card, CardContent } from "./_components/Card"; // Added: From BirdwatchingSpotsTable
+import Filter from "./_components/Filter"; // Added: From BirdwatchingSpotsTable
+import { Tag } from "emblor"; // Added: For Filter options type
+import { BirdImages } from "./_components/BirdImages"; // Added: From BirdwatchingSpotsTable
+import { SpotCardHeader } from "./_components/SpotCardHeader"; // Added: From BirdwatchingSpotsTable
 import { getBirdSuggest } from "./_util/getBirdSuggest";
 import LocaleSwitcher from "./_components/LocaleSwitcher";
 import { BirdIcon } from "lucide-react";
@@ -28,6 +33,12 @@ export default async function Home({ params }: I18nPageProps) {
     return b[currentMonth] - a[currentMonth];
   });
 
+  const tableOptions: Tag[] = (await getBirdSuggest("")).map((bird) => ({
+    // Define options for the table, explicitly typed
+    id: bird.id.toString(),
+    text: bird.name,
+  }));
+
   return (
     <>
       <header className="container mx-auto flex p-3">
@@ -44,15 +55,21 @@ export default async function Home({ params }: I18nPageProps) {
       </header>
       <main className="container mx-auto px-3">
         <h1 className="text-2xl font-bold mb-3">{t("list")}</h1>
-        <BirdwatchingSpotsTable
-          spots={sortedSpots}
-          currentMonth={currentMonth}
-          monthPart={monthPart}
-          options={(await getBirdSuggest("")).map((bird) => ({
-            id: bird.id.toString(),
-            text: bird.name,
-          }))}
-        />
+        <Filter options={tableOptions} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+          {sortedSpots.map((spot: Spot) => (
+            <Card key={spot.id} className="overflow-hidden">
+              <SpotCardHeader spot={spot} currentMonth={currentMonth} />
+              <CardContent>
+                <BirdImages
+                  birds={spot.birds}
+                  currentMonth={currentMonth}
+                  monthPart={monthPart}
+                />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </main>
     </>
   );
