@@ -7,7 +7,7 @@ import { Link } from "@/i18n/routing";
 import { Spot } from "@/model/Spot";
 import { useTranslations } from "next-intl";
 import { Month } from "@/model/Month";
-import { updateSpot } from "../_util/updateSpot";
+import { updateSpot } from "./updateSpot";
 
 export function SpotCardHeader({
   spot,

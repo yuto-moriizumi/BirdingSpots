@@ -1,8 +1,8 @@
 "use server";
 
 import { PrismaClient } from "@prisma/client";
-import { upsertSpot } from "../add/_util/addSpot";
-import { getSpotBirds } from "../add/_util/getSpotData";
+import { upsertSpot } from "../../add/_util/addSpot";
+import { getSpotBirds } from "../../add/_util/getSpotData";
 
 const prisma = new PrismaClient();
 

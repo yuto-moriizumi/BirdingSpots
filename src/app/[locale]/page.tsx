@@ -2,11 +2,9 @@ import { getBirdwatchingSpots } from "./_util/getBirdwatchingSpots";
 import { Month } from "@/model/Month";
 import { Spot } from "../../model/Spot"; // Added: For spot type in map
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import Filter from "./_components/Filter"; // Added: From BirdwatchingSpotsTable
 import { Tag } from "emblor"; // Added: For Filter options type
-import { BirdImages } from "./_components/BirdImages"; // Added: From BirdwatchingSpotsTable
-import { SpotCardHeader } from "./_components/SpotCardHeader"; // Added: From BirdwatchingSpotsTable
+import { SpotCard } from "./_components/SpotCard"; // Added: New SpotCard component
 import { getBirdSuggest } from "./_util/getBirdSuggest";
 import LocaleSwitcher from "./_components/LocaleSwitcher";
 import { BirdIcon } from "lucide-react";
@@ -58,16 +56,12 @@ export default async function Home({ params }: I18nPageProps) {
         <Filter options={tableOptions} />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
           {sortedSpots.map((spot: Spot) => (
-            <Card key={spot.id} className="overflow-hidden">
-              <SpotCardHeader spot={spot} currentMonth={currentMonth} />
-              <CardContent>
-                <BirdImages
-                  birds={spot.birds}
-                  currentMonth={currentMonth}
-                  monthPart={monthPart}
-                />
-              </CardContent>
-            </Card>
+            <SpotCard
+              key={spot.id}
+              spot={spot}
+              currentMonth={currentMonth}
+              monthPart={monthPart}
+            />
           ))}
         </div>
       </main>
