@@ -1,6 +1,6 @@
 import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 import { MONTH } from "@/model/Month";
-import { Button } from "../../.@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Schema } from "./schema";
 
 interface EditableBirdFieldsProps {

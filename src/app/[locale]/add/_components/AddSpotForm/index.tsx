@@ -6,8 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { MONTH } from "@/model/Month";
 import { Spot } from "@/model/Spot";
 import { useTranslations } from "next-intl";
-import { Button } from "../../.@/components/ui/button";
-import { upsertSpot } from "../../_util/addSpot";
+import { Button } from "@/components/ui/button";
+import { upsertSpot } from "../../../_util/upsertSpot";
 import { BirdForm } from "../BirdForm";
 import { URLForm } from "../URLForm";
 import { schema, Schema } from "./schema"; // Import schema

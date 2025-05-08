@@ -1,6 +1,6 @@
 "use client";
 
-import { getSpotData } from "../_util/getSpotData";
+import { getSpotData } from "./getSpotData";
 import { Spot } from "@/model/Spot";
 import { z } from "zod";
 import { useForm } from "react-hook-form";

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { getBird } from "../_util/getBird";
+import { getBird } from "./getBird";
 import { Bird } from "@/model/Bird";
-import { Button } from "@/app/[locale]/_components/Button";
+import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 

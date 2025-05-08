@@ -1,74 +1,8 @@
-"use server";
-
-import { Spot } from "@/model/Spot";
 import { JSDOM } from "jsdom";
-import { imgToMonthRecord } from "./img2numbers";
 import { SpotBird } from "@/model/SpotBird";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
-// 何ページ目まで取得するか
-const MAX_PAGE = 2;
-
-export async function getSpotData(
-  id: string,
-  dataURL: string
-): Promise<Omit<Spot, "id">> {
-  try {
-    const [basicInfo, monthRecord, birds] = await Promise.all([
-      getBasicInfo(id),
-      imgToMonthRecord(dataURL),
-      getSpotBirds(id),
-    ]);
-
-    // 鳥情報を追加する
-    await prisma.bird.createMany({
-      data: birds.map((bird) => ({
-        id: bird.id,
-        name: bird.name,
-        imageUrl: bird.imageUrl,
-      })),
-      skipDuplicates: true,
-    });
-
-    return {
-      ...basicInfo,
-      ...monthRecord,
-      birds,
-    };
-  } catch (error) {
-    console.error("Error fetching URL:", error);
-    throw new Error("Failed to fetch URL");
-  }
-}
-
-/** 指定したスポットIDの野鳥情報をMAX_PAGE目まで取得する */
-export async function getSpotBirds(id: string) {
-  return Promise.all(
-    [...new Array(MAX_PAGE)].map((_, i) => getSpotBirdsByPage(id, i + 1))
-  ).then((arr) => arr.flat());
-}
-
-async function getBasicInfo(id: string): Promise<{
-  name: string;
-  address: string;
-}> {
-  const response = await fetch(`https://zoopicker.com/places/${id}`);
-  const data = await response.text();
-  const dom = new JSDOM(data);
-  const document = dom.window.document;
-  const h1Text = document.querySelector("h1")?.textContent || "";
-  const address =
-    document.querySelector("article > div.mb-s")?.textContent || "";
-  return {
-    name: h1Text,
-    address: address,
-  };
-}
 
 /** @param page 1-indexed */
-async function getSpotBirdsByPage(
+export async function getSpotBirdsByPage(
   id: string,
   page: number
 ): Promise<SpotBird[]> {

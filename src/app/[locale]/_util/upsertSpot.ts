@@ -1,8 +1,8 @@
 "use server";
 
 import { PrismaClient } from "@prisma/client";
-import { MonthRecord } from "../../../../model/MonthRecord";
-import { SpotBird } from "../../../../model/SpotBird";
+import { MonthRecord } from "../../../model/MonthRecord";
+import { SpotBird } from "../../../model/SpotBird";
 import { revalidatePath } from "next/cache";
 
 const prisma = new PrismaClient();
