@@ -1,7 +1,7 @@
 import { getBirdwatchingSpots } from "./_util/getBirdwatchingSpots";
 import { Month } from "@/model/Month";
 import { Spot } from "../../model/Spot"; // Added: For spot type in map
-import { Button } from "./_components/Button";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Filter from "./_components/Filter"; // Added: From BirdwatchingSpotsTable
 import { Tag } from "emblor"; // Added: For Filter options type
