@@ -12,7 +12,7 @@ import clsx from "clsx";
 import { useParams } from "next/navigation";
 
 import { useTransition } from "react";
-import { setUserLocale } from "../_util/setLocale";
+import { setUserLocale } from "./setLocale";
 
 type Props = {
   defaultValue: string;
