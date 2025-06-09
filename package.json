@@ -11,7 +11,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.0.1",
+    "@hookform/resolvers": "^5.1.1",
     "@langchain/openai": "^0.5.11",
     "@prisma/client": "^6.9.0",
     "@radix-ui/react-dialog": "^1.1.14",
