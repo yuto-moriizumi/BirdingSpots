@@ -11,12 +11,14 @@ import { BirdIcon } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { I18nPageProps } from "@/model/I18nPageProps";
+import { BuildTime } from "./_components/BuildTime";
 
 type MonthPart = 0 | 1 | 2;
 export default async function Home({ params }: I18nPageProps) {
   // Enable static rendering
   setRequestLocale((await params).locale);
   const t = await getTranslations("Home");
+  const buildTimeT = await getTranslations("BuildTime");
 
   const spots = await getBirdwatchingSpots();
   const currentMonth = new Date().toLocaleString("en-US", {
@@ -40,9 +42,10 @@ export default async function Home({ params }: I18nPageProps) {
   return (
     <>
       <header className="container mx-auto flex p-3">
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <BirdIcon size={32} />
           <h1 className="text-2xl font-semibold">BirdingSpots</h1>
+          <BuildTime buildTimeLabel={buildTimeT("buildTime")} />
         </div>
         <div className="flex gap-2 flex-wrap flex-grow justify-end">
           <Link href="/add">

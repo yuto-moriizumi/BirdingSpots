@@ -13,5 +13,8 @@
     "birds": "Birds",
     "addBird": "Add a bird",
     "goBack": "Go back"
+  },
+  "BuildTime": {
+    "buildTime": "Build Time"
   }
 }
