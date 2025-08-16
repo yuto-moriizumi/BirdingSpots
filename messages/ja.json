@@ -13,5 +13,8 @@
     "birds": "鳥",
     "addBird": "鳥を追加",
     "goBack": "一覧へ戻る"
+  },
+  "BuildTime": {
+    "buildTime": "ビルド日時"
   }
 }

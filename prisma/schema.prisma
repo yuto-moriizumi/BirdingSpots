@@ -1,11 +1,11 @@
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_URL_NON_POOLING")
+  url      = env("DATABASE_URL")
 }
 
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["rhel-openssl-3.0.x", "windows"]
+  binaryTargets = ["rhel-openssl-3.0.x", "windows", "debian-openssl-3.0.x"]
 }
 
 // This is your Prisma schema file,
