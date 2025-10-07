@@ -26,7 +26,7 @@
     "emblor": "^1.4.8",
     "jsdom": "^27.0.0",
     "langchain": "^0.3.35",
-    "lucide-react": "^0.544.0",
+    "lucide-react": "^0.545.0",
     "next": "15.5.4",
     "next-intl": "^4.3.9",
     "react": "^18.3.1",
