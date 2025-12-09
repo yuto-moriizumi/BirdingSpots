@@ -39,7 +39,6 @@ export default function Filter(props: { options: Tag[] }) {
           render={({ field }) => (
             <FormItem className="flex flex-col items-start">
               <FormControl className="w-full">
-                {/** @ts-expect-error TagInputの型定義がおかしいので無視 */}
                 <TagInput
                   {...field}
                   placeholder={t("filter")}
