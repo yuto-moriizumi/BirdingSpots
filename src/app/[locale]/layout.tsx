@@ -29,8 +29,7 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }>) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (!routing.locales.includes((await params).locale as any)) {
+  if (!routing.locales.includes((await params).locale as (typeof routing.locales)[number])) {
     notFound();
   }
   // Enable static rendering

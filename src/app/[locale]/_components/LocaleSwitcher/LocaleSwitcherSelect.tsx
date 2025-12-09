@@ -28,9 +28,7 @@ export default function LocaleSwitcherSelect({ defaultValue, items }: Props) {
   function onChange(value: string) {
     const locale = value;
     startTransition(() => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore -- next-intlの型定義ミス
-      if (routing.localePrefix === "never") setUserLocale(locale);
+      if ((routing.localePrefix as string) === "never") setUserLocale(locale);
       else
         router.push(
           // @ts-expect-error -- TypeScript will validate that only known `params`
