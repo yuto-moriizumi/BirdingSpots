@@ -1,13 +1,10 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 export async function getBirdSuggest(str: string) {
   const birds = await prisma.bird.findMany({
     where: { name: { startsWith: str } },
   });
-  await prisma.$disconnect();
   return birds;
 }

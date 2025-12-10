@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { Spot } from "../../../model/Spot";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
+import { Spot } from "@/model/Spot";
 
 export async function getBirdwatchingSpots(): Promise<Spot[]> {
   try {
@@ -20,7 +18,5 @@ export async function getBirdwatchingSpots(): Promise<Spot[]> {
   } catch (error) {
     console.error("Error fetching data from Prisma:", error);
     throw error;
-  } finally {
-    await prisma.$disconnect();
   }
 }

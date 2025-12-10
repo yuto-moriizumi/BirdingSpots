@@ -1,12 +1,10 @@
 "use server";
 
 import { Spot } from "@/model/Spot";
+import { prisma } from "@/lib/prisma";
 import { JSDOM } from "jsdom";
 import { imgToMonthRecord } from "./img2numbers";
-import { PrismaClient } from "@prisma/client";
 import { getSpotBirds } from "../../../_util/getSpotBirds";
-
-const prisma = new PrismaClient();
 
 export async function getSpotData(
   id: string,

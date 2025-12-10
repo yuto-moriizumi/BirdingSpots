@@ -1,10 +1,8 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { upsertSpot } from "../../_util/upsertSpot";
 import { getSpotBirds } from "../../_util/getSpotBirds";
-
-const prisma = new PrismaClient();
 
 /** 指定したスポットの野鳥情報を更新する */
 export async function updateSpot(id: string) {
