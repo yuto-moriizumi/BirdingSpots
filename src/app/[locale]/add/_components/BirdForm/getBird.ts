@@ -1,10 +1,8 @@
 "use server";
 
 import { Bird } from "@/model/Bird";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { JSDOM } from "jsdom";
-
-const prisma = new PrismaClient();
 
 export async function getBird(id: number): Promise<Bird | undefined> {
   const bird = await prisma.bird.findUnique({ where: { id } });
