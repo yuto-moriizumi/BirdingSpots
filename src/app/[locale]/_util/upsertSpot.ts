@@ -1,11 +1,9 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { MonthRecord } from "../../../model/MonthRecord";
 import { SpotBird } from "../../../model/SpotBird";
 import { revalidatePath } from "next/cache";
-
-const prisma = new PrismaClient();
 
 export type SpotCreate = MonthRecord & {
   id: string;
@@ -63,7 +61,5 @@ export async function upsertSpot(spotData: SpotCreate) {
   } catch (error) {
     console.error("Error adding spot:", error);
     return false;
-  } finally {
-    await prisma.$disconnect();
   }
 }

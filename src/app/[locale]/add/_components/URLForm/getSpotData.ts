@@ -3,10 +3,8 @@
 import { Spot } from "@/model/Spot";
 import { JSDOM } from "jsdom";
 import { imgToMonthRecord } from "./img2numbers";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { getSpotBirds } from "../../../_util/getSpotBirds";
-
-const prisma = new PrismaClient();
 
 export async function getSpotData(
   id: string,
