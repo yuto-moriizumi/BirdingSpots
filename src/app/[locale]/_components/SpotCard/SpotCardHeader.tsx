@@ -44,6 +44,11 @@ export function SpotCardHeader({
           </p>
         </div>
         <p className="text-sm text-gray-500">{spot.address}</p>
+        <p className="text-xs text-gray-400">
+          {t("updatedAt", {
+            date: spot.updatedAt.toISOString().split("T")[0],
+          })}
+        </p>
       </div>
       <div className="flex gap-2">
         <button

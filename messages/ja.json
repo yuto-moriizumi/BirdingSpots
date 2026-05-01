@@ -3,7 +3,8 @@
     "add": "探鳥地を追加",
     "list": "探鳥地一覧",
     "popularity": "今月の人気度",
-    "filter": "非表示にする鳥を選択"
+    "filter": "非表示にする鳥を選択",
+    "updatedAt": "最終更新: {date}"
   },
   "AddSpotPage": {
     "title": "探鳥地を追加",

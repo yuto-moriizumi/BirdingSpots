@@ -28,6 +28,7 @@ model Spot {
   Oct       Int
   Nov       Int
   Dec       Int
+  updatedAt DateTime   @updatedAt
   spotbirds SpotBird[] @relation(name: "SpotToSpotBird")
 }
 

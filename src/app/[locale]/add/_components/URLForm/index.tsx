@@ -14,7 +14,7 @@ const schema = z.object({
 type Schema = z.infer<typeof schema>;
 
 /** AIを使ってフォーム入力を補助するコンポーネント */
-export function URLForm(props: { onData: (data: Spot) => void }) {
+export function URLForm(props: { onData: (data: Omit<Spot, "updatedAt">) => void }) {
   const {
     register,
     handleSubmit,

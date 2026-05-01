@@ -48,8 +48,8 @@ export function AddSpotForm() {
     <>
       <URLForm
         onData={(data) => {
-          Object.entries(data).forEach(([key, value]) => {
-            setValue(key as keyof Spot, value);
+          (Object.entries(data) as [keyof typeof data, (typeof data)[keyof typeof data]][]).forEach(([key, value]) => {
+            setValue(key, value);
           });
         }}
       />

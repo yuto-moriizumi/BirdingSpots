@@ -3,7 +3,8 @@
     "add": "Add a new spot",
     "list": "List of birding spots",
     "popularity": "Popularity this month",
-    "filter": "Select birds to hide"
+    "filter": "Select birds to hide",
+    "updatedAt": "Last updated: {date}"
   },
   "AddSpotPage": {
     "title": "Add a new birding spot",

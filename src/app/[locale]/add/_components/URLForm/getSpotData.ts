@@ -9,7 +9,7 @@ import { getSpotBirds } from "../../../_util/getSpotBirds";
 export async function getSpotData(
   id: string,
   dataURL: string
-): Promise<Omit<Spot, "id">> {
+): Promise<Omit<Spot, "id" | "updatedAt">> {
   try {
     const [basicInfo, monthRecord, birds] = await Promise.all([
       getBasicInfo(id),

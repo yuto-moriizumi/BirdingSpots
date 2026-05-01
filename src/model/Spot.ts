@@ -5,5 +5,6 @@ export type Spot = MonthRecord & {
   id: string;
   name: string;
   address: string;
+  updatedAt: Date;
   birds: SpotBird[];
 };
