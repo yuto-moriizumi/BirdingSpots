@@ -28,9 +28,9 @@ export function BirdImages({
             a[`${currentMonth}Frequency`][monthPart]
         )
         .slice(0, BIRDS_PER_SPOT)
-        .map((bird, index) => (
+        .map((bird) => (
           <Link
-            key={index}
+            key={bird.id}
             href={`https://zoopicker.com/animals/${bird.id}`}
             className="relative aspect-square rounded-lg overflow-hidden group"
           >
