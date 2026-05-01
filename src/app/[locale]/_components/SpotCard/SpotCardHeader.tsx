@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { RefreshCw } from "lucide-react";
 import { CardHeader } from "@/components/ui/card";
 import { Link } from "@/i18n/routing";
@@ -18,21 +18,17 @@ export function SpotCardHeader({
 }) {
   const t = useTranslations("Home");
   const [isLoading, setIsLoading] = useState(false);
-  const [formattedDate, setFormattedDate] = useState<string | null>(null);
 
-  useEffect(() => {
-    setFormattedDate(
-      spot.updatedAt
-        .toLocaleString("ja-JP", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-        .replace(/\//g, "-"),
-    );
-  }, [spot.updatedAt]);
+  const formattedDate = new Date(spot.updatedAt)
+    .toLocaleString("ja-JP", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Asia/Tokyo",
+    })
+    .replace(/\//g, "-");
 
   const handleUpdate = async (spotId: string) => {
     setIsLoading(true); // Set loading to true
@@ -59,11 +55,9 @@ export function SpotCardHeader({
           </p>
         </div>
         <p className="text-sm text-gray-500">{spot.address}</p>
-        {formattedDate && (
-          <p className="text-xs text-gray-400">
-            {t("updatedAt", { date: formattedDate })}
-          </p>
-        )}
+        <p className="text-xs text-gray-400" suppressHydrationWarning>
+          {t("updatedAt", { date: formattedDate })}
+        </p>
       </div>
       <div className="flex gap-2">
         <button
