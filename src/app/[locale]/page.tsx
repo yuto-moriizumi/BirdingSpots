@@ -29,7 +29,7 @@ export default async function Home({ params }: I18nPageProps) {
     2
   ) as MonthPart;
 
-  const sortedSpots = spots.sort((a, b) => {
+  const sortedSpots = [...spots].sort((a, b) => {
     return b[currentMonth] - a[currentMonth];
   });
 
