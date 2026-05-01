@@ -46,7 +46,15 @@ export function SpotCardHeader({
         <p className="text-sm text-gray-500">{spot.address}</p>
         <p className="text-xs text-gray-400">
           {t("updatedAt", {
-            date: spot.updatedAt.toISOString().split("T")[0],
+            date: spot.updatedAt
+              .toLocaleString("ja-JP", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+              .replace(/\//g, "-"),
           })}
         </p>
       </div>
