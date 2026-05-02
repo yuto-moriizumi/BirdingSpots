@@ -30,12 +30,14 @@ export async function getSpotBirdsByPage(
     for (let i = 0; i < monthElements.length; i += 4) {
       const monthParts = monthElements.slice(i + 1, i + 4);
       const frequencies = monthParts.map((part) => {
-        const height =
-          part.querySelector<SVGRectElement>("rect.frequency")?.style.height ||
-          "0%";
+        const rect = part.querySelector<SVGRectElement>("rect.frequency");
+        // style属性を直接取得してCSSパーサーを回避する (calc(25% - NaN%) 等で例外が発生するため)
+        const styleAttr = rect?.getAttribute("style") ?? "";
+        const match = styleAttr.match(/height\s*:\s*([\d.]+)%/);
+        const height = match ? parseFloat(match[1]) : 0;
         // height値の%は確率の半分の値になっているので、2倍してから百分率にする
         // 非常に小さくても0.1%は表示するように切り上げる
-        return Math.ceil(parseFloat(height) * 2 * 10) / 1000;
+        return Math.ceil(height * 2 * 10) / 1000;
       }) as [number, number, number];
       monthHeights.push(frequencies);
     }
