@@ -10,7 +10,8 @@ export async function getSpotBirdsByPage(
     `https://zoopicker.com/places/${id}/birds?page=${page}`
   );
   if (!response.ok) return [];
-  const data = await response.text();
+  // NaN% を含む calc() 値は JSDOM の CSS パーサーが例外をスローするため事前に置換する
+  const data = (await response.text()).replaceAll("NaN%", "0%");
   const dom = new JSDOM(data);
   const document = dom.window.document;
   const birdList: SpotBird[] = [];
