@@ -43,7 +43,8 @@ async function getBasicInfo(id: string): Promise<{
   address: string;
 }> {
   const response = await fetch(`https://zoopicker.com/places/${id}`);
-  const data = await response.text();
+  const raw = await response.text();
+  const data = raw.replace(/calc\([^)]*NaN%[^)]*\)/g, "0%");
   const dom = new JSDOM(data);
   const document = dom.window.document;
   const h1Text = document.querySelector("h1")?.textContent || "";
