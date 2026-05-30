@@ -6,7 +6,9 @@
     "filter": "非表示にする鳥を選択",
     "updatedAt": "最終更新: {date}",
     "sortBy": "ソート順",
-    "nthBirdProbability": "{n}番目の鳥の確率"
+    "nthBirdProbability": "{n}番目の鳥の確率",
+    "delete": "削除",
+    "deleteConfirm": "本当にこの探鳥地を削除しますか？"
   },
   "AddSpotPage": {
     "title": "探鳥地を追加",

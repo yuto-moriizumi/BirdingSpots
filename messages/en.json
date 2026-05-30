@@ -6,7 +6,9 @@
     "filter": "Select birds to hide",
     "updatedAt": "Last updated: {date}",
     "sortBy": "Sort Order",
-    "nthBirdProbability": "Probability of bird #{n}"
+    "nthBirdProbability": "Probability of bird #{n}",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this birding spot?"
   },
   "AddSpotPage": {
     "title": "Add a new birding spot",

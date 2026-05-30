@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, Trash2 } from "lucide-react";
 import { CardHeader } from "@/components/ui/card";
 import { Link } from "@/i18n/routing";
 import { Spot } from "@/model/Spot";
 import { useTranslations } from "next-intl";
 import { Month } from "@/model/Month";
 import { updateSpot } from "./updateSpot";
+import { deleteSpot } from "./deleteSpot";
 
 export function SpotCardHeader({
   spot,
@@ -41,6 +42,24 @@ export function SpotCardHeader({
     }
   };
 
+  const handleDelete = async (spotId: string) => {
+    if (!window.confirm(t("deleteConfirm"))) {
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const success = await deleteSpot(spotId);
+      if (!success) {
+        alert("Failed to delete spot.");
+      }
+    } catch (error) {
+      console.error("Failed to delete spot:", error);
+      alert("Failed to delete spot.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
       <div>
@@ -67,6 +86,16 @@ export function SpotCardHeader({
         >
           <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`} />{" "}
         </button>
+        {process.env.NODE_ENV === "development" && (
+          <button
+            onClick={() => handleDelete(spot.id)}
+            className="text-red-500 hover:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isLoading}
+            title={t("delete")}
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        )}
       </div>
     </CardHeader>
   );
