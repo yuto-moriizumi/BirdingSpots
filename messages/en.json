@@ -4,7 +4,9 @@
     "list": "List of birding spots",
     "popularity": "Popularity this month",
     "filter": "Select birds to hide",
-    "updatedAt": "Last updated: {date}"
+    "updatedAt": "Last updated: {date}",
+    "sortBy": "Sort Order",
+    "nthBirdProbability": "Probability of bird #{n}"
   },
   "AddSpotPage": {
     "title": "Add a new birding spot",
