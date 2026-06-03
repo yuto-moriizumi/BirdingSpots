@@ -56,7 +56,11 @@ export default function SpotList({
       const probA = getNthBirdProb(a);
       const probB = getNthBirdProb(b);
 
-      return probB - probA;
+      const probabilityDiff = probB - probA;
+
+      return probabilityDiff === 0
+        ? b[currentMonth] - a[currentMonth]
+        : probabilityDiff;
     }
   });
 
