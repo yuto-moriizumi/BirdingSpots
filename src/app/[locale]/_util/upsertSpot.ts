@@ -9,6 +9,7 @@ export type SpotCreate = MonthRecord & {
   id: string;
   name: string;
   address: string;
+  heatIndexId?: string | null;
   birds: Omit<SpotBird, "name" | "imageUrl">[];
 };
 
@@ -18,6 +19,7 @@ export async function upsertSpot(spotData: SpotCreate) {
       id: spotData.id,
       name: spotData.name,
       address: spotData.address,
+      heatIndexId: spotData.heatIndexId || null,
       Jan: spotData.Jan,
       Feb: spotData.Feb,
       Mar: spotData.Mar,

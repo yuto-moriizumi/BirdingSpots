@@ -32,6 +32,10 @@ export default function SpotList({
   const t = useTranslations("Home");
   const { tags } = useStoredTags();
   const [sortBy, setSortBy] = useState<string>("popularity");
+  const [heatIndexDate, setHeatIndexDate] = useState(() =>
+    new Date()
+      .toLocaleDateString("sv-SE", { timeZone: "Asia/Tokyo" })
+  );
 
   const idsToHide = tags.map((tag) => parseInt(tag.id));
 
@@ -66,25 +70,38 @@ export default function SpotList({
 
   return (
     <>
-      <div className="flex flex-row items-center justify-between gap-4 mb-3">
+      <div className="flex flex-row flex-wrap items-center justify-between gap-4 mb-3">
         <h1 className="text-2xl font-bold">{t("list")}</h1>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500 whitespace-nowrap">
-            {t("sortBy")}
-          </span>
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-[220px]">
-              <SelectValue placeholder={t("sortBy")} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="popularity">{t("popularity")}</SelectItem>
-              {[1, 2, 3, 4, 5, 6].map((n) => (
-                <SelectItem key={n} value={n.toString()}>
-                  {t("nthBirdProbability", { n })}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="flex flex-wrap items-center justify-end gap-3">
+          <label className="flex items-center gap-2">
+            <span className="text-sm text-gray-500 whitespace-nowrap">
+              {t("heatIndexDate")}
+            </span>
+            <input
+              type="date"
+              value={heatIndexDate}
+              onChange={(event) => setHeatIndexDate(event.target.value)}
+              className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+            />
+          </label>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-500 whitespace-nowrap">
+              {t("sortBy")}
+            </span>
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-[220px]">
+                <SelectValue placeholder={t("sortBy")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="popularity">{t("popularity")}</SelectItem>
+                {[1, 2, 3, 4, 5, 6].map((n) => (
+                  <SelectItem key={n} value={n.toString()}>
+                    {t("nthBirdProbability", { n })}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
       <Filter options={tableOptions} />
@@ -95,6 +112,7 @@ export default function SpotList({
             spot={spot}
             currentMonth={currentMonth}
             monthPart={monthPart}
+            heatIndexDate={heatIndexDate}
           />
         ))}
       </div>

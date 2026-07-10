@@ -91,6 +91,18 @@ export function AddSpotForm() {
             <p className="text-red-500">{errors.address.message}</p>
           )}
         </label>
+        <label className="flex items-center space-x-2">
+          <span className="text-gray-700 w-24">{t("heatIndexId")}:</span>
+          <input
+            type="text"
+            placeholder="3/14/14341"
+            {...register("heatIndexId")}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          />
+          {errors.heatIndexId && (
+            <p className="text-red-500">{errors.heatIndexId.message}</p>
+          )}
+        </label>
         {MONTH.map((month) => (
           <label key={month} className="flex items-center space-x-2">
             <span className="text-gray-700 w-16">{month}:</span>

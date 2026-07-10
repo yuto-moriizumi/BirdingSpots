@@ -7,6 +7,21 @@
     "updatedAt": "Last updated: {date}",
     "sortBy": "Sort Order",
     "nthBirdProbability": "Probability of bird #{n}",
+    "heatIndex": "Heat index",
+    "heatIndexDate": "Heat index date",
+    "heatIndexStates": {
+      "disabled": "Heat index not set",
+      "loading": "Loading",
+      "error": "Failed to fetch",
+      "empty": "No data"
+    },
+    "heatIndexLevels": {
+      "danger": "Danger",
+      "severe_alert": "Severe alert",
+      "alert": "Alert",
+      "caution": "Caution",
+      "safe": "Safe"
+    },
     "delete": "Delete",
     "deleteConfirm": "Are you sure you want to delete this birding spot?"
   },
@@ -17,6 +32,7 @@
     "submitting": "Submitting...",
     "birds": "Birds",
     "addBird": "Add a bird",
+    "heatIndexId": "Heat index API ID",
     "goBack": "Go back"
   },
   "BuildTime": {

@@ -12,9 +12,12 @@ const schema = z.object({
   dataURL: z.string().url(),
 });
 type Schema = z.infer<typeof schema>;
+type URLFormSpotData = Omit<Spot, "updatedAt" | "heatIndexId"> & {
+  heatIndexId: string;
+};
 
 /** AIを使ってフォーム入力を補助するコンポーネント */
-export function URLForm(props: { onData: (data: Omit<Spot, "updatedAt">) => void }) {
+export function URLForm(props: { onData: (data: URLFormSpotData) => void }) {
   const {
     register,
     handleSubmit,
