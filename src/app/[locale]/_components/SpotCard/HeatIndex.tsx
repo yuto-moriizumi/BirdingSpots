@@ -4,11 +4,14 @@ import { useTranslations } from "next-intl";
 import type { HeatIndex as HeatIndexValue } from "../../_util/getHeatIndexes";
 
 const levelClassName: Record<string, string> = {
-  danger: "bg-red-100 text-red-800 border-red-200",
-  severe_alert: "bg-orange-100 text-orange-800 border-orange-200",
-  alert: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  caution: "bg-lime-100 text-lime-800 border-lime-200",
-  safe: "bg-emerald-100 text-emerald-800 border-emerald-200",
+  // Yahoo! heatstroke levels: dangerous, severe_alert, alert, caution, safe.
+  // Keep `danger` as an alias for compatibility with older API data.
+  dangerous: "bg-[#ed002f] text-white border-[#ed002f]",
+  danger: "bg-[#ed002f] text-white border-[#ed002f]",
+  severe_alert: "bg-[#ff9500] text-black border-[#ff9500]",
+  alert: "bg-[#ffd400] text-black border-[#ffd400]",
+  caution: "bg-[#88d856] text-black border-[#88d856]",
+  safe: "bg-[#6dd1ec] text-black border-[#6dd1ec]",
 };
 
 export function HeatIndex({
