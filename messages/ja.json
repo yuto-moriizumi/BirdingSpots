@@ -7,6 +7,22 @@
     "updatedAt": "最終更新: {date}",
     "sortBy": "ソート順",
     "nthBirdProbability": "{n}番目の鳥の確率",
+    "heatIndex": "暑さ指数",
+    "heatIndexDate": "暑さ指数の日付",
+    "heatIndexStates": {
+      "disabled": "暑さ指数未設定",
+      "loading": "読み込み中",
+      "error": "取得失敗",
+      "empty": "データなし"
+    },
+    "heatIndexLevels": {
+      "dangerous": "危険",
+      "danger": "危険",
+      "severe_alert": "厳重警戒",
+      "alert": "警戒",
+      "caution": "注意",
+      "safe": "ほぼ安全"
+    },
     "delete": "削除",
     "deleteConfirm": "本当にこの探鳥地を削除しますか？"
   },
@@ -17,6 +33,7 @@
     "submitting": "追加中…",
     "birds": "鳥",
     "addBird": "鳥を追加",
+    "heatIndexId": "暑さ指数 API ID",
     "goBack": "一覧へ戻る"
   },
   "BuildTime": {

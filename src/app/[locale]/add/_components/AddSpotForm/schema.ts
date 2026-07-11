@@ -6,6 +6,12 @@ export const schema = z.object({
   id: z.string().nonempty(),
   name: z.string().nonempty(),
   address: z.string().nonempty(),
+  heatIndexId: z
+    .string()
+    .trim()
+    .regex(/^\d+\/\d+\/\d+$/, "Use a value like 3/14/14341")
+    .optional()
+    .or(z.literal("")),
   Jan: z.number().min(0),
   Feb: z.number().min(0),
   Mar: z.number().min(0),
