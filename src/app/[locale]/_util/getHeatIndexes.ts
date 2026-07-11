@@ -25,7 +25,7 @@ export async function getHeatIndexes(
       try {
         const response = await fetch(
           `${HEAT_INDEX_API_URL}/${spot.heatIndexId}`,
-          { cache: "no-store" }
+          { next: { revalidate: 60 } }
         );
         if (!response.ok) return [spot.id, { status: "error" }];
 

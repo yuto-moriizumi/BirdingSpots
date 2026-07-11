@@ -74,4 +74,4 @@ export default async function Home({ params }: HomeProps) {
 }
 
 // 最後の生成から1分以後にアクセスされた場合は再生成する
-export const revalidate = 10;
+export const revalidate = 60;
