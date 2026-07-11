@@ -8,6 +8,7 @@ import { Month } from "@/model/Month";
 import { SpotCard } from "./SpotCard";
 import Filter from "./Filter";
 import { useStoredTags } from "../_util/useStorage";
+import type { HeatIndex } from "../_util/getHeatIndexes";
 import {
   Select,
   SelectContent,
@@ -21,6 +22,8 @@ interface SpotListProps {
   currentMonth: Month;
   monthPart: 0 | 1 | 2;
   tableOptions: Tag[];
+  heatIndexDate: string;
+  heatIndexes: Record<string, HeatIndex>;
 }
 
 export default function SpotList({
@@ -28,14 +31,13 @@ export default function SpotList({
   currentMonth,
   monthPart,
   tableOptions,
+  heatIndexDate,
+  heatIndexes,
 }: SpotListProps) {
   const t = useTranslations("Home");
   const { tags } = useStoredTags();
   const [sortBy, setSortBy] = useState<string>("popularity");
-  const [heatIndexDate, setHeatIndexDate] = useState(() =>
-    new Date()
-      .toLocaleDateString("sv-SE", { timeZone: "Asia/Tokyo" })
-  );
+  const [selectedDate, setSelectedDate] = useState(heatIndexDate);
 
   const idsToHide = tags.map((tag) => parseInt(tag.id));
 
@@ -79,8 +81,8 @@ export default function SpotList({
             </span>
             <input
               type="date"
-              value={heatIndexDate}
-              onChange={(event) => setHeatIndexDate(event.target.value)}
+              value={selectedDate}
+              onChange={(event) => setSelectedDate(event.target.value)}
               className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
             />
           </label>
@@ -112,7 +114,8 @@ export default function SpotList({
             spot={spot}
             currentMonth={currentMonth}
             monthPart={monthPart}
-            heatIndexDate={heatIndexDate}
+            heatIndex={heatIndexes[spot.id]}
+            heatIndexDate={selectedDate}
           />
         ))}
       </div>

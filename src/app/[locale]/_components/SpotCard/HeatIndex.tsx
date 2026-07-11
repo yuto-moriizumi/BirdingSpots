@@ -1,14 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Spot } from "@/model/Spot";
-
-type HeatIndexState =
-  | { status: "loading" }
-  | { status: "error" }
-  | { status: "empty" }
-  | { status: "ready"; value: string };
+import type { HeatIndex as HeatIndexValue } from "../../_util/getHeatIndexes";
 
 const levelClassName: Record<string, string> = {
   danger: "bg-red-100 text-red-800 border-red-200",
@@ -19,58 +12,26 @@ const levelClassName: Record<string, string> = {
 };
 
 export function HeatIndex({
-  spot,
-  selectedDate,
+  heatIndex,
+  heatIndexDate,
 }: {
-  spot: Spot;
-  selectedDate: string;
+  heatIndex: HeatIndexValue;
+  heatIndexDate: string;
 }) {
   const t = useTranslations("Home");
-  const [state, setState] = useState<HeatIndexState>({ status: "loading" });
-
-  useEffect(() => {
-    if (!spot.heatIndexId) {
-      return;
-    }
-
-    const controller = new AbortController();
-    queueMicrotask(() => setState({ status: "loading" }));
-
-    fetch(
-      `https://7mm01bt4ii.execute-api.ap-northeast-1.amazonaws.com/${spot.heatIndexId}`,
-      { signal: controller.signal }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Heat index API returned ${response.status}`);
-        }
-        return response.json() as Promise<Record<string, string>>;
-      })
-      .then((data) => {
-        const value = data[selectedDate.replaceAll("-", "")];
-        setState(value ? { status: "ready", value } : { status: "empty" });
-      })
-      .catch((error) => {
-        if (error instanceof DOMException && error.name === "AbortError") {
-          return;
-        }
-        console.error("Failed to fetch heat index:", error);
-        setState({ status: "error" });
-      });
-
-    return () => controller.abort();
-  }, [selectedDate, spot.heatIndexId]);
-
-  const displayState = spot.heatIndexId ? state : { status: "disabled" as const };
+  const dateKey = heatIndexDate.replaceAll("-", "");
+  const value = heatIndex.status === "ready" ? heatIndex.values[dateKey] : undefined;
+  const displayState =
+    heatIndex.status === "ready" && !value ? "empty" : heatIndex.status;
   const text =
-    displayState.status === "ready"
-      ? t.has(`heatIndexLevels.${displayState.value}`)
-        ? t(`heatIndexLevels.${displayState.value}`)
-        : displayState.value
-      : t(`heatIndexStates.${displayState.status}`);
+    value
+      ? t.has(`heatIndexLevels.${value}`)
+        ? t(`heatIndexLevels.${value}`)
+        : value
+      : t(`heatIndexStates.${displayState}`);
   const className =
-    displayState.status === "ready"
-      ? levelClassName[displayState.value] ??
+    value
+      ? levelClassName[value] ??
         "bg-gray-100 text-gray-700 border-gray-200"
       : "bg-gray-50 text-gray-500 border-gray-200";
 

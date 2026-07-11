@@ -10,15 +10,26 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { I18nPageProps } from "@/model/I18nPageProps";
 import { BuildTime } from "./_components/BuildTime";
 import SpotList from "./_components/SpotList";
+import { getHeatIndexes } from "./_util/getHeatIndexes";
 
 type MonthPart = 0 | 1 | 2;
-export default async function Home({ params }: I18nPageProps) {
+type HomeProps = I18nPageProps;
+
+function getTodayInJst() {
+  return new Intl.DateTimeFormat("sv-SE", {
+    timeZone: "Asia/Tokyo",
+  }).format(new Date());
+}
+
+export default async function Home({ params }: HomeProps) {
   // Enable static rendering
   setRequestLocale((await params).locale);
   const t = await getTranslations("Home");
   const buildTimeT = await getTranslations("BuildTime");
 
   const spots = await getBirdwatchingSpots();
+  const heatIndexDate = getTodayInJst();
+  const heatIndexes = await getHeatIndexes(spots);
   const currentMonth = new Date().toLocaleString("en-US", {
     month: "short",
   }) as Month;
@@ -54,6 +65,8 @@ export default async function Home({ params }: I18nPageProps) {
           currentMonth={currentMonth}
           monthPart={monthPart}
           tableOptions={tableOptions}
+          heatIndexDate={heatIndexDate}
+          heatIndexes={heatIndexes}
         />
       </main>
     </>
