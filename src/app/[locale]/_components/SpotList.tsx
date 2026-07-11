@@ -37,7 +37,26 @@ export default function SpotList({
   const t = useTranslations("Home");
   const { tags } = useStoredTags();
   const [sortBy, setSortBy] = useState<string>("popularity");
-  const [selectedDate, setSelectedDate] = useState(heatIndexDate);
+
+  const availableDates = Object.values(heatIndexes).flatMap((heatIndex) =>
+    heatIndex.status === "ready"
+      ? Object.keys(heatIndex.values)
+          .filter((date) => /^\d{8}$/.test(date))
+          .map((date) => `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6)}`)
+      : []
+  );
+  const minHeatIndexDate = availableDates.length
+    ? availableDates.reduce((min, date) => (date < min ? date : min))
+    : undefined;
+  const maxHeatIndexDate = availableDates.length
+    ? availableDates.reduce((max, date) => (date > max ? date : max))
+    : undefined;
+  const initialHeatIndexDate = minHeatIndexDate && heatIndexDate < minHeatIndexDate
+    ? minHeatIndexDate
+    : maxHeatIndexDate && heatIndexDate > maxHeatIndexDate
+      ? maxHeatIndexDate
+      : heatIndexDate;
+  const [selectedDate, setSelectedDate] = useState(initialHeatIndexDate);
 
   const idsToHide = tags.map((tag) => parseInt(tag.id));
 
@@ -82,7 +101,19 @@ export default function SpotList({
             <input
               type="date"
               value={selectedDate}
-              onChange={(event) => setSelectedDate(event.target.value)}
+              min={minHeatIndexDate}
+              max={maxHeatIndexDate}
+              disabled={!minHeatIndexDate || !maxHeatIndexDate}
+              onChange={(event) => {
+                const date = event.target.value;
+                if (
+                  date &&
+                  (!minHeatIndexDate || date >= minHeatIndexDate) &&
+                  (!maxHeatIndexDate || date <= maxHeatIndexDate)
+                ) {
+                  setSelectedDate(date);
+                }
+              }}
               className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
             />
           </label>
