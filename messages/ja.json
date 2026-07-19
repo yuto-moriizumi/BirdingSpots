@@ -16,6 +16,7 @@
       "empty": "データなし"
     },
     "heatIndexLevels": {
+      "extremely_dangerous": "極めて危険",
       "dangerous": "危険",
       "danger": "危険",
       "severe_alert": "厳重警戒",

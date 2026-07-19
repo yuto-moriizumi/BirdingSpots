@@ -16,6 +16,7 @@
       "empty": "No data"
     },
     "heatIndexLevels": {
+      "extremely_dangerous": "Extremely dangerous",
       "dangerous": "Danger",
       "danger": "Danger",
       "severe_alert": "Severe alert",
