@@ -28,7 +28,7 @@
     "cmdk": "^1.1.1",
     "emblor": "^1.4.8",
     "jsdom": "^30.0.1",
-    "langchain": "^1.5.4",
+    "langchain": "^1.5.5",
     "lucide-react": "^1.30.0",
     "next": "16.3.0",
     "next-intl": "^4.13.5",
