@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
-    "@langchain/google-genai": "^2.2.0",
+    "@langchain/google-genai": "^2.3.0",
     "@langchain/openai": "^1",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
