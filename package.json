@@ -45,7 +45,7 @@
     "@types/jsdom": "^30.0.0",
     "@types/node": "^26",
     "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.4",
+    "@types/react-dom": "19.2.5",
     "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "16.3.2",
