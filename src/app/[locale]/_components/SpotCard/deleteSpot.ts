@@ -2,11 +2,14 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/auth";
+import { isAllowedDiscordId } from "@/lib/auth-permissions";
 
-/** 指定したスポットを削除する (開発モードのみ) */
+/** 許可されたDiscordユーザーが指定したスポットを削除する */
 export async function deleteSpot(id: string): Promise<boolean> {
-  if (process.env.NODE_ENV !== "development") {
-    throw new Error("This action is only available in development mode.");
+  const session = await auth();
+  if (!isAllowedDiscordId(session?.user?.discordId)) {
+    throw new Error("You are not authorized to delete spots.");
   }
 
   try {

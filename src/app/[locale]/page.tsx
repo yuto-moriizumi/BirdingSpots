@@ -11,6 +11,7 @@ import { I18nPageProps } from "@/model/I18nPageProps";
 import { BuildTime } from "./_components/BuildTime";
 import SpotList from "./_components/SpotList";
 import { getHeatIndexes } from "./_util/getHeatIndexes";
+import { AuthControls } from "@/components/AuthControls";
 
 type MonthPart = 0 | 1 | 2;
 type HomeProps = I18nPageProps;
@@ -56,6 +57,7 @@ export default async function Home({ params }: HomeProps) {
           <Link href="/add">
             <Button variant="default">{t("add")}</Button>
           </Link>
+          <AuthControls />
           <LocaleSwitcher />
         </div>
       </header>
