@@ -1,5 +1,19 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Discord authentication
+
+Authentication uses Discord OAuth through NextAuth. Spot browsing, creation, and updates remain public; deleting a spot is limited to the Discord account listed in `src/lib/auth-permissions.ts`.
+
+Set these values in `.env.local` for local development and in your deployment environment for production:
+
+```dotenv
+AUTH_SECRET=replace-with-a-long-random-secret
+DISCORD_CLIENT_ID=your-discord-application-client-id
+DISCORD_CLIENT_SECRET=your-discord-application-client-secret
+```
+
+Generate `AUTH_SECRET` with `openssl rand -base64 32`. In the Discord Developer Portal, add the OAuth2 redirect URL `http://localhost:3000/api/auth/callback/discord` for local development. For production, add `https://your-domain.example/api/auth/callback/discord` using your deployed domain.
+
 ## Getting Started
 
 First, run the development server:

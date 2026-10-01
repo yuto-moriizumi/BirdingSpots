@@ -25,7 +25,9 @@
       "safe": "ほぼ安全"
     },
     "delete": "削除",
-    "deleteConfirm": "本当にこの探鳥地を削除しますか？"
+    "deleteConfirm": "本当にこの探鳥地を削除しますか？",
+    "signIn": "Discordでログイン",
+    "signOut": "ログアウト"
   },
   "AddSpotPage": {
     "title": "探鳥地を追加",

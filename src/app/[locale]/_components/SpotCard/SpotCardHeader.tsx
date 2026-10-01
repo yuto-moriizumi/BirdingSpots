@@ -9,6 +9,8 @@ import { useTranslations } from "next-intl";
 import { Month } from "@/model/Month";
 import { updateSpot } from "./updateSpot";
 import { deleteSpot } from "./deleteSpot";
+import { useSession } from "next-auth/react";
+import { isAllowedDiscordId } from "@/lib/auth-permissions";
 
 export function SpotCardHeader({
   spot,
@@ -19,6 +21,8 @@ export function SpotCardHeader({
 }) {
   const t = useTranslations("Home");
   const [isLoading, setIsLoading] = useState(false);
+  const { data: session } = useSession();
+  const canDelete = isAllowedDiscordId(session?.user?.discordId);
 
   const formattedDate = new Date(spot.updatedAt)
     .toLocaleString("ja-JP", {
@@ -86,12 +90,13 @@ export function SpotCardHeader({
         >
           <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`} />{" "}
         </button>
-        {process.env.NODE_ENV === "development" && (
+        {canDelete && (
           <button
             onClick={() => handleDelete(spot.id)}
             className="text-red-500 hover:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isLoading}
             title={t("delete")}
+            aria-label={t("delete")}
           >
             <Trash2 className="w-4 h-4" />
           </button>

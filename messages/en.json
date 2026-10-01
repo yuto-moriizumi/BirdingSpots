@@ -25,7 +25,9 @@
       "safe": "Safe"
     },
     "delete": "Delete",
-    "deleteConfirm": "Are you sure you want to delete this birding spot?"
+    "deleteConfirm": "Are you sure you want to delete this birding spot?",
+    "signIn": "Sign in with Discord",
+    "signOut": "Sign out"
   },
   "AddSpotPage": {
     "title": "Add a new birding spot",
