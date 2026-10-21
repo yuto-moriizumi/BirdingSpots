@@ -39,26 +39,30 @@ export async function upsertSpot(spotData: SpotCreate) {
         create: spot,
         update: spot,
       });
-      await tx.spotBird.deleteMany({ where: { spotId: spotData.id } });
-      await tx.spotBird.createMany({
-        data: spotData.birds.map((bird) => ({
-          spotId: spotData.id,
-          birdId: bird.id,
-          JanFrequency: bird.JanFrequency,
-          FebFrequency: bird.FebFrequency,
-          MarFrequency: bird.MarFrequency,
-          AprFrequency: bird.AprFrequency,
-          MayFrequency: bird.MayFrequency,
-          JunFrequency: bird.JunFrequency,
-          JulFrequency: bird.JulFrequency,
-          AugFrequency: bird.AugFrequency,
-          SepFrequency: bird.SepFrequency,
-          OctFrequency: bird.OctFrequency,
-          NovFrequency: bird.NovFrequency,
-          DecFrequency: bird.DecFrequency,
-        })),
-        skipDuplicates: true,
-      });
+      // 取得した野鳥リストが空の場合は既存データを削除しない
+      // (取得失敗時にスクレイピング結果でDBの野鳥データが消えるのを防ぐため)
+      if (spotData.birds.length > 0) {
+        await tx.spotBird.deleteMany({ where: { spotId: spotData.id } });
+        await tx.spotBird.createMany({
+          data: spotData.birds.map((bird) => ({
+            spotId: spotData.id,
+            birdId: bird.id,
+            JanFrequency: bird.JanFrequency,
+            FebFrequency: bird.FebFrequency,
+            MarFrequency: bird.MarFrequency,
+            AprFrequency: bird.AprFrequency,
+            MayFrequency: bird.MayFrequency,
+            JunFrequency: bird.JunFrequency,
+            JulFrequency: bird.JulFrequency,
+            AugFrequency: bird.AugFrequency,
+            SepFrequency: bird.SepFrequency,
+            OctFrequency: bird.OctFrequency,
+            NovFrequency: bird.NovFrequency,
+            DecFrequency: bird.DecFrequency,
+          })),
+          skipDuplicates: true,
+        });
+      }
     });
     revalidatePath("/");
     return true;

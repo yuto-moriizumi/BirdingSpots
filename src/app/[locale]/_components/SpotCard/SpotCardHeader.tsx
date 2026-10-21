@@ -38,7 +38,10 @@ export function SpotCardHeader({
   const handleUpdate = async (spotId: string) => {
     setIsLoading(true); // Set loading to true
     try {
-      await updateSpot(spotId); // Await the promise
+      const success = await updateSpot(spotId); // Await the promise
+      if (!success) {
+        alert("Failed to update spot.");
+      }
     } catch (error) {
       console.error("Failed to update spot:", error); // Optional: handle error
     } finally {

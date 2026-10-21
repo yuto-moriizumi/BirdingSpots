@@ -15,9 +15,10 @@ export async function getSpotBirdsByPage(
   const dom = new JSDOM(data);
   const document = dom.window.document;
   const birdList: SpotBird[] = [];
-  const listDiv = document.querySelector("div.list.mobile-list");
-  if (!listDiv) return [];
-  listDiv.querySelectorAll("div.bird-list.list-item").forEach((div) => {
+  // タグ名 (div/ul, div/li) に依存しないセレクターにする (サイト側のマークアップ変更に強くするため)
+  const listElement = document.querySelector(".list.mobile-list");
+  if (!listElement) return [];
+  listElement.querySelectorAll(".bird-list.list-item").forEach((div) => {
     const birdId =
       div.querySelector("a.link")?.getAttribute("href")?.split("/")[2] || "";
     const birdName = div.querySelector("span")?.textContent || "";
