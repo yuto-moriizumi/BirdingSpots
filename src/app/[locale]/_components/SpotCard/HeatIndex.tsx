@@ -5,7 +5,7 @@ import type { HeatIndex as HeatIndexValue } from "../../_util/getHeatIndexes";
 
 const levelClassName: Record<string, string> = {
   // Yahoo! heatstroke levels: extremely_dangerous, dangerous, severe_alert,
-  // alert, caution, safe.
+  // alert, caution, almost_safe, safe.
   // Keep `danger` as an alias for compatibility with older API data.
   extremely_dangerous: "bg-[#928] text-white border-[#928]",
   dangerous: "bg-[#ed002f] text-white border-[#ed002f]",
@@ -13,6 +13,7 @@ const levelClassName: Record<string, string> = {
   severe_alert: "bg-[#ff9500] text-black border-[#ff9500]",
   alert: "bg-[#ffd400] text-black border-[#ffd400]",
   caution: "bg-[#88d856] text-black border-[#88d856]",
+  almost_safe: "bg-[#6dd1ec] text-black border-[#6dd1ec]",
   safe: "bg-[#6dd1ec] text-black border-[#6dd1ec]",
 };
 
