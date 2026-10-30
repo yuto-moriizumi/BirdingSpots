@@ -12,7 +12,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@hookform/resolvers": "^6.0.0",
+    "@hookform/resolvers": "^6.0.1",
     "@langchain/google-genai": "^2.3.4",
     "@langchain/openai": "^1",
     "@prisma/adapter-pg": "^7.10.1",
