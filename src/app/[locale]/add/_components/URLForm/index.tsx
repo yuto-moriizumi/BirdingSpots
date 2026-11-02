@@ -9,48 +9,32 @@ import { useTranslations } from "next-intl";
 
 const schema = z.object({
   url: z.string().url(),
-  dataURL: z.string().url(),
 });
 type Schema = z.infer<typeof schema>;
 type URLFormSpotData = Omit<Spot, "updatedAt" | "heatIndexId"> & {
   heatIndexId: string;
 };
 
-/** AIを使ってフォーム入力を補助するコンポーネント */
+/** 探鳥地のURLからフォーム入力を補助するコンポーネント */
 export function URLForm(props: { onData: (data: URLFormSpotData) => void }) {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setValue,
     reset,
   } = useForm<Schema>({ resolver: zodResolver(schema) });
 
   const t = useTranslations("AddSpotPage");
 
-  const onSubmit = async (data: { url: string; dataURL: string }) => {
+  const onSubmit = async (data: { url: string }) => {
     try {
       const idMatch = data.url.match(/\/(\d+)\/?$/);
       const id = idMatch ? idMatch[1] : "1";
-      const spotData = await getSpotData(id, data.dataURL);
+      const spotData = await getSpotData(id);
       props.onData({ id, ...spotData });
       reset();
     } catch (error) {
       console.error("Validation or fetching error:", error);
-    }
-  };
-
-  const handlePaste = async (event: React.ClipboardEvent<HTMLInputElement>) => {
-    const items = event.clipboardData.items;
-    for (const item of items) {
-      if (!item.type.startsWith("image/")) continue;
-      const file = item.getAsFile();
-      if (!file) continue;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setValue("dataURL", e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
     }
   };
 
@@ -65,18 +49,6 @@ export function URLForm(props: { onData: (data: URLFormSpotData) => void }) {
         />
       </div>
       {errors.url && <p className="text-red-500">{errors.url.message}</p>}
-      <div className="flex items-center space-x-4 mt-4">
-        <label className="text-gray-700 w-1/4">Data URL:</label>
-        <input
-          type="text"
-          {...register("dataURL", { required: "Data URL is required" })}
-          onPaste={handlePaste}
-          className="mt-1 block w-3/4 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-        />
-      </div>
-      {errors.dataURL && (
-        <p className="text-red-500">{errors.dataURL.message}</p>
-      )}
       <button
         type="submit"
         className="w-full py-2 px-4 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
