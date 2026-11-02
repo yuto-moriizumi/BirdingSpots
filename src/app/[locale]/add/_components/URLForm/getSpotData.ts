@@ -1,19 +1,23 @@
 "use server";
 
 import { Spot } from "@/model/Spot";
+import { MonthRecord } from "@/model/MonthRecord";
+import { MONTH } from "@/model/Month";
 import { prisma } from "@/lib/prisma";
 import { JSDOM } from "jsdom";
-import { imgToMonthRecord } from "./img2numbers";
 import { getSpotBirds } from "../../../_util/getSpotBirds";
 
+type SpotPageInfo = {
+  name: string;
+  address: string;
+} & MonthRecord;
+
 export async function getSpotData(
-  id: string,
-  dataURL: string
+  id: string
 ): Promise<Omit<Spot, "id" | "updatedAt" | "heatIndexId"> & { heatIndexId: string }> {
   try {
-    const [basicInfo, monthRecord, birds] = await Promise.all([
-      getBasicInfo(id),
-      imgToMonthRecord(dataURL),
+    const [basicInfo, birds] = await Promise.all([
+      getSpotPageInfo(id),
       getSpotBirds(id),
     ]);
 
@@ -29,7 +33,6 @@ export async function getSpotData(
 
     return {
       ...basicInfo,
-      ...monthRecord,
       heatIndexId: "",
       birds,
     };
@@ -39,20 +42,63 @@ export async function getSpotData(
   }
 }
 
-async function getBasicInfo(id: string): Promise<{
-  name: string;
-  address: string;
-}> {
+async function getSpotPageInfo(id: string): Promise<SpotPageInfo> {
   const response = await fetch(`https://zoopicker.com/places/${id}`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch place page: ${response.status}`);
+  }
   const raw = await response.text();
   const data = raw.replace(/calc\([^)]*NaN%[^)]*\)/g, "0%");
   const dom = new JSDOM(data);
   const document = dom.window.document;
-  const h1Text = document.querySelector("h1")?.textContent || "";
+  const name = document.querySelector("h1")?.textContent?.trim() || "";
   const address =
-    document.querySelector("article > div.mb-s")?.textContent || "";
+    document.querySelector("article > div.mb-s")?.textContent?.trim() || "";
   return {
-    name: h1Text,
-    address: address,
+    name,
+    address,
+    ...getMonthlyCounts(document),
   };
+}
+
+/**
+ * 「月毎の累計観察数」の表から 1月〜12月 の件数を取り出す。
+ * 以前は canvas で描画されたグラフだったが、HTML の表に変わった。
+ */
+function getMonthlyCounts(document: Document): MonthRecord {
+  const monthlyCounts = Object.fromEntries(
+    MONTH.map((month) => [month, 0])
+  ) as MonthRecord;
+
+  const charts = Array.from(
+    document.querySelectorAll<HTMLElement>(".html-bar-chart")
+  );
+  const chart =
+    charts.find((element) =>
+      Array.from(element.querySelectorAll("th")).some((th) =>
+        /^\d{1,2}月$/.test(th.textContent?.trim() ?? "")
+      )
+    ) ?? charts[0];
+  if (!chart) return monthlyCounts;
+
+  chart.querySelectorAll("tr").forEach((row) => {
+    const monthMatch = row
+      .querySelector("th")
+      ?.textContent?.trim()
+      .match(/^(\d{1,2})月$/);
+    if (!monthMatch) return;
+
+    const month = MONTH[Number(monthMatch[1]) - 1];
+    if (!month) return;
+
+    // 値は html-bar-chart__value 内の span に入っている
+    const valueText =
+      row.querySelector(".html-bar-chart__value span")?.textContent ??
+      row.querySelector("td")?.textContent ??
+      "";
+    const value = Number.parseInt(valueText.replace(/[^\d]/g, ""), 10);
+    if (Number.isFinite(value)) monthlyCounts[month] = value;
+  });
+
+  return monthlyCounts;
 }
