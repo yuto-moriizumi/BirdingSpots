@@ -26,7 +26,7 @@
     "cmdk": "^1.1.1",
     "emblor": "^1.4.8",
     "jsdom": "^31.0.0",
-    "lucide-react": "^1.70.0",
+    "lucide-react": "^1.71.0",
     "next": "16.4.6",
     "next-auth": "^5.0.0-beta.32",
     "next-intl": "^4.14.10",
